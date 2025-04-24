@@ -1,11 +1,14 @@
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+
 import authRouts from "./routs/auth.routs.js";
 
 dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("Welcome to leetLab 🔥");
