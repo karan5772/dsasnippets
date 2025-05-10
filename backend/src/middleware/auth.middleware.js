@@ -13,7 +13,7 @@ export const authMwiddleware = async (req, res, next) => {
 
     let decoded;
     try {
-      decoded = await jwt.verify(token, process.env.JWT_SECRET);
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (error) {
       return res.status(401).json({
         success: false,
@@ -30,7 +30,7 @@ export const authMwiddleware = async (req, res, next) => {
         email: true,
         id: true,
         role: true,
-        image:true
+        image: true,
       },
     });
 
