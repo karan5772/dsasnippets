@@ -273,6 +273,12 @@ export const deleteProblem = async (req, res) => {
       message: "Cannot GET Problem ID",
     });
   }
+  if (req.user.role !== "ADMIN") {
+    return res.status(403).json({
+      success: false,
+      message: "Only ADMIN is allowed to create the problem",
+    });
+  }
   try {
     const problem = await db.problem.findUnique({
       where: {
