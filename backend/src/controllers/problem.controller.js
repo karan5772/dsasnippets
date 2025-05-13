@@ -1,5 +1,9 @@
 import { db } from "../libs/db.js";
-import { getLangaugeId, submitBatch } from "../libs/judge0.lib.js";
+import {
+  getLangaugeId,
+  poolBatchResults,
+  submitBatch,
+} from "../libs/judge0.lib.js";
 
 export const createProblem = async (req, res) => {
   //brings data from body
@@ -16,7 +20,7 @@ export const createProblem = async (req, res) => {
   } = req.body;
 
   //check role of user
-  if (req.user.role !== ADMIN) {
+  if (req.user.role !== "ADMIN") {
     return res.status(403).json({
       success: false,
       message: "Only ADMIN is allowed to create the problem",
@@ -27,8 +31,8 @@ export const createProblem = async (req, res) => {
   try {
     for (const [langauge, solutionCode] of Object.entries(referenceSolutions)) {
       //get judge 0 langauge ID
-      const langaugeId = getLangaugeId(langauge);
-      if (!langaugeId) {
+      const languageId = getLangaugeId(langauge);
+      if (!languageId) {
         return res.status(400).json({
           success: false,
           message: `Does not support ${langauge} Langauge`,
@@ -39,7 +43,7 @@ export const createProblem = async (req, res) => {
       const submitions = testcases.map(({ input, output }) => ({
         //differenciate input & output from the testcases
         source_code: solutionCode,
-        langauge_id: langaugeId,
+        language_id: languageId,
         stdin: input,
         expected_output: output,
       })); //prepared a submition tha will go to the judge0
@@ -52,6 +56,7 @@ export const createProblem = async (req, res) => {
 
       for (let i = 0; i < results.length; i++) {
         const result = results[i];
+        console.log("Result-----", result);
 
         if (result.status.id !== 3) {
           return res.status(400).json({

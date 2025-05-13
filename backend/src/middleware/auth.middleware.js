@@ -64,12 +64,13 @@ export const checkAdmin = async (req, res, next) => {
       },
     });
 
-    if (!user || user.role != ADMIN) {
+    if (!user || user.role !== "ADMIN") {
       return res.status(403).json({
         success: false,
         message: "Access Denied - Admins only",
       });
     }
+    next();
   } catch (error) {
     console.log("Error checking Admin role:", error);
     return res.status(500).json({

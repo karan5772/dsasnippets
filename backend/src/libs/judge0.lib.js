@@ -3,7 +3,7 @@ export const getLangaugeId = function (langauge) {
   const langaugeMap = {
     JAVA: 62,
     PYTHON: 71,
-    JAAVASCRIPT: 63,
+    JAVASCRIPT: 63,
   };
 
   return langaugeMap[langauge.toUpperCase()];
@@ -14,7 +14,7 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 export const poolBatchResults = async (tokens) => {
   while (true) {
     const { data } = await axios.get(
-      `${(process.env, JUDGE0_API_URL)}/submissions/batch`,
+      `${process.env.JUDGE0_API_URL}/submissions/batch`,
       {
         params: {
           tokens: tokens.join(","),
