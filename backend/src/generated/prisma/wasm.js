@@ -131,16 +131,16 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.ProblemScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  discription: 'discription',
-  dificulty: 'dificulty',
+  description: 'description',
+  difficulty: 'difficulty',
   tags: 'tags',
   userId: 'userId',
+  examples: 'examples',
   constraints: 'constraints',
   hints: 'hints',
   editorial: 'editorial',
-  examples: 'examples',
   testcases: 'testcases',
-  codeSnipet: 'codeSnipet',
+  codeSnippets: 'codeSnippets',
   referenceSolutions: 'referenceSolutions',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -175,7 +175,7 @@ exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN'
 };
 
-exports.Dificulty = exports.$Enums.Dificulty = {
+exports.Difficulty = exports.$Enums.Difficulty = {
   EASY: 'EASY',
   MEDIUM: 'MEDIUM',
   HARD: 'HARD'

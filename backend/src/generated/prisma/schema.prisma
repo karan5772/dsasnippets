@@ -19,7 +19,7 @@ enum UserRole {
   ADMIN
 }
 
-enum Dificulty {
+enum Difficulty {
   EASY
   MEDIUM
   HARD
@@ -39,24 +39,24 @@ model User {
 }
 
 model Problem {
-  id          String    @id @default(uuid())
+  id          String     @id @default(uuid())
   title       String
-  discription String
-  dificulty   Dificulty
-  tags        String[]
+  description String
+  difficulty  Difficulty
+  tags        String[] // ["tag1", "tag2", "tag3"]
   userId      String
-
+  examples    Json
   constraints String
   hints       String?
   editorial   String?
-  examples    Json
 
-  testcases          Json
-  codeSnipet         Json //Supported Langauges
+  testcases          Json // 
+  codeSnippets       Json
   referenceSolutions Json
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  //  Relationship
   user User @relation(fields: [userId], references: [id], onDelete: Cascade) // relates to the User model in the schem, it takes the user id and also, these probluma will be deleted once the user is deleted.
 }
