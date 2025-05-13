@@ -141,6 +141,12 @@ export const getProblemById = async (req, res) => {
         message: "Problem not found",
       });
     }
+
+    return res.status(200).json({
+      success: true,
+      message: "Found the Problem by ID",
+      problem,
+    });
   } catch (error) {
     console.error("Error Featching Problem by ID:", error);
     return res.status(500).json({
@@ -259,6 +265,52 @@ export const updateProblem = async (req, res) => {
   }
 };
 
-export const deleteProblem = async (req, res) => {};
+export const deleteProblem = async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(404).json({
+      success: false,
+      message: "Cannot GET Problem ID",
+    });
+  }
+  try {
+    const problem = await db.problem.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!problem) {
+      return res.status(404).json({
+        success: false,
+        message: "Problem not found",
+      });
+    }
+
+    const deletedProblem = await db.problem.delete({
+      where: {
+        id,
+      },
+    });
+
+    if (!deletedProblem) {
+      return res.status(404).json({
+        success: false,
+        message: "Problem not deleted",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Deleted the Problem",
+    });
+  } catch (error) {
+    console.error("Error Deleting Problem :", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
 
 export const getProblemsSolvedByUser = async (req, res) => {};
