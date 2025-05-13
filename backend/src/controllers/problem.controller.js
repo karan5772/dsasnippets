@@ -112,7 +112,7 @@ export const getAllProblems = async (req, res) => {
       problems,
     });
   } catch (error) {
-    console.error("Error Featching Problem:", error);
+    console.error("Error Featching Problems:", error);
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -120,7 +120,35 @@ export const getAllProblems = async (req, res) => {
   }
 };
 
-export const getProblemById = async (req, res) => {};
+export const getProblemById = async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(404).json({
+      success: false,
+      message: "Cannot GET Problem ID",
+    });
+  }
+  try {
+    const problem = await db.problem.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!problem) {
+      return res.status(404).json({
+        success: false,
+        message: "Problem not found",
+      });
+    }
+  } catch (error) {
+    console.error("Error Featching Problem:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
 
 export const updateProblem = async (req, res) => {};
 
