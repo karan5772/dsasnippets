@@ -49,7 +49,7 @@ model Problem{
   hints       String?
   editorial   String?
 
-  testcases          Json // 
+  testcases          Json //   
   codeSnippets       Json
   referenceSolutions Json
 
@@ -57,5 +57,5 @@ model Problem{
   updatedAt DateTime @updatedAt
 
   //  Relationship
-  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade) // relates to the User model in the schem, it takes the user id and also, these probluma will be deleted once the user is deleted.
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade) // relates to the User model in the schem, it takes the user id and also, these probluma will be deleted once the user is deleted.
 }
