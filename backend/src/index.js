@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import authRouts from "./routs/auth.routs.js";
 import problemRouts from "./routs/problem.routs.js";
 import executionRouts from "./routs/execution.routs.js";
+import submissionRoute from "./routs/submission.routs.js";
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 app.use("/user/v1/auth", authRouts);
 app.use("/user/v1/problems", problemRouts);
 app.use("/user/v1/execute-code", executionRouts);
+app.use("/user/v1/submission", submissionRoute);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
