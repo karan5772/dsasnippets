@@ -21,7 +21,7 @@ problemRouts.get("/get-All-Problems", authMwiddleware, getAllProblems);
 
 problemRouts.get("/get-Problem-By-Id/:id", authMwiddleware, getProblemById);
 
-problemRouts.post(
+problemRouts.put(
   "/update-Problem/:id",
   authMwiddleware,
   checkAdmin,
