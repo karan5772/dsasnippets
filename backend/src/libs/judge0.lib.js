@@ -44,3 +44,14 @@ export const submitBatch = async (submissions) => {
   );
   return data;
 };
+
+export const getLangaugeName = function (language_id) {
+  const langaugeMap = {
+    62: "JAVA",
+    71: "PYTHON",
+    63: "JAVASCRIPT",
+    74: "TYPESCRIPT",
+  };
+
+  return langaugeMap[language_id] || "Unknown";
+};
