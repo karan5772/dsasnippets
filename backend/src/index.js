@@ -6,6 +6,7 @@ import authRouts from "./routs/auth.routs.js";
 import problemRouts from "./routs/problem.routs.js";
 import executionRouts from "./routs/execution.routs.js";
 import submissionRoute from "./routs/submission.routs.js";
+import playlistRoute from "./routs/playlist.routs.js";
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,7 @@ app.use("/user/v1/auth", authRouts);
 app.use("/user/v1/problems", problemRouts);
 app.use("/user/v1/execute-code", executionRouts);
 app.use("/user/v1/submission", submissionRoute);
+app.use("/user/v1/playlist", playlistRoute);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

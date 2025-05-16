@@ -43,6 +43,7 @@ model User {
   problem       Problem[]
   submission    Submission[]
   problemSolved ProblemSolved[]
+  playlists     Playlist[]
 }
 
 model Problem {
@@ -65,9 +66,10 @@ model Problem {
   updatedAt DateTime @updatedAt
 
   //  Relationship
-  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade) // relates to the User model in the schem, it takes the user id and also, these probluma will be deleted once the user is deleted.
-  submission Submission[]
-  solvedBy   ProblemSolved[]
+  user               User                 @relation(fields: [userId], references: [id], onDelete: Cascade) // relates to the User model in the schem, it takes the user id and also, these probluma will be deleted once the user is deleted.
+  submission         Submission[]
+  solvedBy           ProblemSolved[]
+  problemsInPlaylist ProblemsInPlaylist[]
 }
 
 model Submission {
@@ -125,4 +127,32 @@ model ProblemSolved {
   problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
 
   @@unique([userId, problemId])
+}
+
+model Playlist {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  userId      String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  problems ProblemsInPlaylist[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([name, userId])
+}
+
+model ProblemsInPlaylist {
+  id          String @id @default(uuid())
+  playliistId String
+  problemId   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  playlist Playlist @relation(fields: [playliistId], references: [id], onDelete: Cascade)
+  problem  Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
 }
