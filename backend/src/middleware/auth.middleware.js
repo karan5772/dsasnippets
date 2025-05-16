@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { db } from "../libs/db.js";
 
-export const authMwiddleware = async (req, res, next) => {
+export const authMiddleware = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
     if (!token) {
