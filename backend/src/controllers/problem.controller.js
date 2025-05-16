@@ -319,4 +319,36 @@ export const deleteProblem = async (req, res) => {
   }
 };
 
-export const getProblemsSolvedByUser = async (req, res) => {};
+export const getProblemsSolvedByUser = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const problems = await db.problem.findMany({
+      where: {
+        solvedBy: {
+          some: {
+            userId,
+          },
+        },
+      },
+      include: {
+        solvedBy: {
+          where: {
+            userId,
+          },
+        },
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Problem Featched Sucessfully",
+      problems,
+    });
+  } catch (error) {
+    console.error("Error Featching Problem :", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
