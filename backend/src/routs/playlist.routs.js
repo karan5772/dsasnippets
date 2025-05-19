@@ -10,11 +10,11 @@ import {
 import { authMiddleware } from "../middleware/auth.middleware.js";
 const playlistRoutes = express.Router();
 
+playlistRoutes.post("/create-playlist", authMiddleware, createPlaylist);
+
 playlistRoutes.get("/", authMiddleware, getAllListDetails);
 
 playlistRoutes.get("/:playlistId", authMiddleware, getPlayListDetails);
-
-playlistRoutes.post("/create-playlist", authMiddleware, createPlaylist);
 
 playlistRoutes.post(
   "/:playlistId/add-problem",
