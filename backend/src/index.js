@@ -18,11 +18,11 @@ app.get("/", (req, res) => {
   res.send("Welcome to leetLab 🔥");
 });
 
-app.use("/user/v1/auth", authRouts);
-app.use("/user/v1/problems", problemRouts);
-app.use("/user/v1/execute-code", executionRouts);
-app.use("/user/v1/submission", submissionRoute);
-app.use("/user/v1/playlist", playlistRoute);
+app.use("/api/v1/auth", authRouts);
+app.use("/api/v1/problems", problemRouts);
+app.use("/api/v1/execute-code", executionRouts);
+app.use("/api/v1/submission", submissionRoute);
+app.use("/api/v1/playlist", playlistRoute);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
