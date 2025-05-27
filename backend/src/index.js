@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import authRouts from "./routs/auth.routs.js";
 import problemRouts from "./routs/problem.routs.js";
@@ -13,6 +14,13 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("Welcome to leetLab 🔥");
