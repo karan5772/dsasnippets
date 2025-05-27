@@ -7,7 +7,7 @@ import LogoutButton from "./LogoutButton";
 const Navbar = () => {
   const { authUser } = useAuthStore();
 
-  console.log("AUTH_USER", authUser);
+  // console.log("AUTH_USER", authUser);
 
   return (
     <nav className="sticky top-0 z-50 w-full py-5">
