@@ -66,22 +66,15 @@ const LandingPage = () => {
         <div className="w-full container mx-auto max-w-4xl px-4 bg-black/15 shadow-lg shadow-neutral-600/5 backdrop-blur-lg border border-gray-200/10 p-4 rounded-2xl">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <div className="flex items-center space-x-3 group cursor-pointer">
-              <div className="relative">
-                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Code2 className="h-7 w-7 text-white" />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl blur-lg opacity-30 group-hover:opacity-60 transition-opacity duration-300"></div>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-2xl font-black bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                  DSASnippets
-                </span>
-                <span className="text-xs text-gray-400 font-medium">
-                  Coming Soon
-                </span>
-              </div>
-            </div>
+            <Link to="/" className="flex items-center gap-3 cursor-pointer">
+              <img
+                src="/dsasnippets.svg"
+                className="h-18 w-18 bg-primary/20 text-primary border-none px-2 py-2 rounded-full"
+              />
+              <span className="text-lg md:text-2xl font-bold tracking-tight text-white hidden md:block">
+                DSASNIPPETS
+              </span>
+            </Link>
 
             {/* Navigation Links */}
             <div className="hidden md:flex items-center space-x-8">
