@@ -10,6 +10,7 @@ import { Loader } from "lucide-react";
 import Layout from "./layouts/Layout";
 import AdminRoute from "./components/AdminRoute";
 import AddProblem from "./pages/AddProblem";
+import LandingPage from "./pages/LandingPage";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -30,7 +31,8 @@ const App = () => {
     <div className="flex flex-col items-center justify-start ">
       <Toaster />
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/home" element={<Layout />}>
           <Route
             index
             element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
@@ -39,17 +41,17 @@ const App = () => {
 
         <Route
           path="/login"
-          element={!authUser ? <LoginPage /> : <Navigate to={"/"} />}
+          element={!authUser ? <LoginPage /> : <Navigate to={"/home"} />}
         />
 
         <Route
           path="/signup"
-          element={!authUser ? <SignUpPage /> : <Navigate to={"/"} />}
+          element={!authUser ? <SignUpPage /> : <Navigate to={"/home"} />}
         />
         <Route element={<AdminRoute />}>
           <Route
             path="/add-problem"
-            element={authUser ? <AddProblem /> : <Navigate to="/" />}
+            element={authUser ? <AddProblem /> : <Navigate to="/home" />}
           />
         </Route>
       </Routes>
