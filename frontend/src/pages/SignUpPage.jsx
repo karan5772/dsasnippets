@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Code, Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
 import { z } from "zod";
 import AuthImagePattern from "../components/AuthImagePattern";
+import { useAuthStore } from "../store/useAuthStore";
 
 const signUpSchema = z.object({
   email: z.string().email("Enter a valid email"),
@@ -14,6 +15,7 @@ const signUpSchema = z.object({
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { signup, isSigninUp } = useAuthStore();
 
   const {
     register,
@@ -24,8 +26,14 @@ const SignUpPage = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
+    try {
+      await signup(data);
+      console.log("Signup Data", data);
+    } catch (error) {
+      console.error("SignUp failed:", error);
+    }
   };
+
   return (
     <div className="h-screen grid lg:grid-cols-2">
       <div className="flex flex-col justify-center items-center p-6 sm:p-12">
@@ -130,8 +138,19 @@ const SignUpPage = () => {
             </div>
 
             {/* Submit Button */}
-            <button type="submit" className="btn btn-primary w-full">
-              Signup
+            <button
+              type="submit"
+              className="btn btn-primary w-full"
+              disabled={isSigninUp}
+            >
+              {isSigninUp ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                "Sign In"
+              )}
             </button>
           </form>
 
