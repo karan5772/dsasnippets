@@ -173,7 +173,7 @@ const ProblemPage = () => {
             {problem.constraints && (
               <>
                 <h3 className="text-lg font-bold mb-4">Constraints:</h3>
-                <div className="bg-base-200 p-8 rounded-xl mb-6 text-center bg-black/90 px-6 py-3 rounded-lg font-semibold text-white text-lg text-center">
+                <div className=" p-8  mb-6 bg-black/90 px-6 py-3 rounded-lg font-semibold text-white text-lg text-center">
                   <span className="p-10">{problem.constraints}</span>
                 </div>
               </>
@@ -216,7 +216,7 @@ const ProblemPage = () => {
 
   return (
     <div
-      className="bg-gradient-to-br from-base-300 to-base-200 max-w-full w-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden p-10"
+      className=" max-w-full w-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden p-10"
       data-theme="mytheme"
     >
       <nav className="navbar bg-base-100 shadow-lg px-4 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 rounded-lg pt-4 pb-4 pl-5 pr-5">

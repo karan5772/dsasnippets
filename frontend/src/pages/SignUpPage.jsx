@@ -45,9 +45,7 @@ const SignUpPage = () => {
                 <Code className="w-6 h-6 text-primary" />
               </div>
               <h1 className="text-2xl font-bold mt-2">Welcome </h1>
-              <p className="text-base-content/60 text-gray-200">
-                Sign Up to your account
-              </p>
+              <p className=" text-gray-200">Sign Up to your account</p>
             </div>
           </div>
 
@@ -164,7 +162,7 @@ const SignUpPage = () => {
 
           {/* Footer */}
           <div className="text-center">
-            <p className="text-base-content/60 text-gray-200">
+            <p className=" text-gray-200">
               Already have an account?{" "}
               <Link to="/login" className="link link-primary">
                 Sign in
