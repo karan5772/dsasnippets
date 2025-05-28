@@ -44,7 +44,9 @@ const LoginPage = () => {
                 <Code className="w-6 h-6 text-primary" />
               </div>
               <h1 className="text-2xl font-bold mt-2">Welcome Back </h1>
-              <p className="text-base-content/60">Login to your account</p>
+              <p className="text-base-content/60 text-gray-200">
+                Login to your account
+              </p>
             </div>
           </div>
 
@@ -53,7 +55,9 @@ const LoginPage = () => {
             {/* Email */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Email</span>
+                <span className="label-text font-medium text-gray-200">
+                  Email
+                </span>
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -78,7 +82,9 @@ const LoginPage = () => {
             {/* Password */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Password</span>
+                <span className="label-text font-medium text-gray-200">
+                  Password
+                </span>
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -119,7 +125,7 @@ const LoginPage = () => {
             >
               {isLoggingIn ? (
                 <>
-                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <Loader2 className="h-5 w-5 animate-spin text-gray-200" />
                   Loading...
                 </>
               ) : (
@@ -130,7 +136,7 @@ const LoginPage = () => {
 
           {/* Footer */}
           <div className="text-center">
-            <p className="text-base-content/60">
+            <p className="text-base-content/60 text-gray-200">
               Don't have an account?{" "}
               <Link to="/signup" className="link link-primary">
                 Sign Up

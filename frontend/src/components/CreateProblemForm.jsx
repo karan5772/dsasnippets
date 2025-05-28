@@ -17,6 +17,7 @@ import { useState } from "react";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { callGemini } from "../store/useGemini";
 
 const problemSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -570,7 +571,7 @@ const CreateProblemForm = () => {
       const res = await axiosInstance.post("/problems/create-problem", value);
       console.log(res.data);
       toast.success(res.data.message || "Problem Created successfully⚡");
-      navigation("/home");
+      navigation("/");
     } catch (error) {
       console.log(error);
       toast.error("Error creating problem");
@@ -589,23 +590,56 @@ const CreateProblemForm = () => {
     reset(sampleData);
   };
 
+  const [prompt, setPrompt] = useState(" ");
+
+  const fetchGeminiData = async () => {
+    try {
+      setIsLoading(true);
+      const result = await callGemini(prompt);
+
+      if (result && result.candidates) {
+        const jsonRegex = /```json\s*([\s\S]*?)```|({[\s\S]*})/;
+        const generatedData =
+          result.candidates[0]?.content?.parts[0]?.text || "";
+        const match = generatedData.match(jsonRegex);
+        const jsonString = match[1] || match[2];
+        const parsedData = JSON.parse(jsonString);
+        //const parsedData = JSON.parse(generatedData); // Assuming the response is JSON-formatted
+        reset(parsedData); // Populate the form with the response data
+        console.log(parsedData);
+
+        toast.success("Problem generated successfully!");
+      } else {
+        toast.error("Failed to generate problem. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error fetching data from Gemini.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="container mx-auto py-8 px-4 max-w-7xl">
-      <div className="card bg-base-100 shadow-xl">
-        <div className="card-body p-6 md:p-8">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 pb-4 border-b">
-            <h2 className="card-title text-2xl md:text-3xl flex items-center gap-3">
-              <FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />
+    <div
+      className="w-full min-h-screen bg-gradient-to-br from-base-300 to-base-200 bg-gray-900 relative overflow-hidden  rounded-2xl"
+      data-theme="mytheme"
+    >
+      <div className="card bg-base-100 shadow-2xl rounded-2xl">
+        <div className="card-body p-8 space-y-10 ">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b">
+            <h2 className="card-title text-3xl font-bold flex items-center gap-3">
+              <FileText className="w-7 h-7 text-primary" />
               Create Problem
             </h2>
 
-            <div className="flex flex-col md:flex-row gap-3 mt-4 md:mt-0">
-              <div className="join">
+            <div className="flex flex-col md:flex-row gap-3">
+              <div className="join gap-3">
                 <button
-                  type="button"
+                  type="button "
                   className={`btn join-item ${
-                    sampleType === "DP" ? "btn-active" : ""
-                  }`}
+                    sampleType === "DP" ? "btn-primary" : "btn-outline"
+                  } rounded-md`}
                   onClick={() => setSampleType("DP")}
                 >
                   DP Problem
@@ -613,8 +647,8 @@ const CreateProblemForm = () => {
                 <button
                   type="button"
                   className={`btn join-item ${
-                    sampleType === "string" ? "btn-active" : ""
-                  }`}
+                    sampleType === "string" ? "btn-primary" : "btn-outline"
+                  } rounded-md`}
                   onClick={() => setSampleType("string")}
                 >
                   String Problem
@@ -622,27 +656,76 @@ const CreateProblemForm = () => {
               </div>
               <button
                 type="button"
-                className="btn btn-secondary gap-2"
+                className="btn btn-secondary gap-2 rounded-md"
                 onClick={loadSampleData}
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-4 h-4 " />
                 Load Sample
               </button>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+          <div className="w-full flex flex-col items-center justify-start bg-gradient-to-b from-[#0f011f] to-[#1a0143] px-4 pt-20 pb-10 rounded-3xl">
+            <label className="text-4xl md:text-5xl font-bold text-white text-center mb-4">
+              Generate Coding Problems with{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">
+                Seamless Precision
+              </span>
+              <span className="ml-1 animate-pulse">✨</span>
+            </label>
+
+            <p className="text-center text-gray-300 max-w-2xl text-lg mb-10 px-4">
+              Got an idea but not sure how to frame it as a coding problem? Just
+              describe what you want — our AI will help you craft a clear and
+              executable programming challenge in seconds.
+            </p>
+
+            <div className="relative w-full max-w-2xl">
+              <input
+                type="text"
+                className="w-full pl-14 pr-14 py-4 text-lg text-white rounded-full bg-[#121212] border-2 border-pink-500/60 focus:outline-none focus:ring-4 focus:ring-pink-600/40 shadow-lg placeholder:text-gray-300"
+                placeholder="Describe your problem idea..."
+                onChange={(e) => setPrompt(e.target.value)}
+              />
+              <div className="absolute left-5 top-1/2 -translate-y-1/2 text-white text-xl">
+                ✨
+              </div>
+              <button
+                type="button"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-pink-600 hover:bg-pink-700 text-white rounded-full p-3 transition-all"
+                onClick={fetchGeminiData}
+                aria-label="Generate"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
             {/* Basic Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="form-control md:col-span-2">
                 <label className="label">
-                  <span className="label-text text-base md:text-lg font-semibold">
+                  <span className="label-text text-lg font-semibold">
                     Title
                   </span>
                 </label>
                 <input
                   type="text"
-                  className="input input-bordered w-full text-base md:text-lg"
+                  className="input input-bordered w-full text-lg"
                   {...register("title")}
                   placeholder="Enter problem title"
                 />
@@ -657,12 +740,12 @@ const CreateProblemForm = () => {
 
               <div className="form-control md:col-span-2">
                 <label className="label">
-                  <span className="label-text text-base md:text-lg font-semibold">
+                  <span className="label-text text-lg font-semibold">
                     Description
                   </span>
                 </label>
                 <textarea
-                  className="textarea textarea-bordered min-h-32 w-full text-base md:text-lg p-4 resize-y"
+                  className="textarea textarea-bordered w-full text-lg p-4 resize-y min-h-40"
                   {...register("description")}
                   placeholder="Enter problem description"
                 />
@@ -677,12 +760,12 @@ const CreateProblemForm = () => {
 
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text text-base md:text-lg font-semibold">
+                  <span className="label-text text-lg font-semibold">
                     Difficulty
                   </span>
                 </label>
                 <select
-                  className="select select-bordered w-full text-base md:text-lg"
+                  className="select select-bordered w-full text-lg"
                   {...register("difficulty")}
                 >
                   <option value="EASY">Easy</option>
@@ -700,9 +783,9 @@ const CreateProblemForm = () => {
             </div>
 
             {/* Tags */}
-            <div className="card bg-base-200 p-4 md:p-6 shadow-md">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg md:text-xl font-semibold flex items-center gap-2">
+            <div className="card bg-base-200 p-6 shadow-md rounded-xl">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-semibold flex items-center gap-2">
                   <BookOpen className="w-5 h-5" />
                   Tags
                 </h3>
@@ -735,18 +818,16 @@ const CreateProblemForm = () => {
                 ))}
               </div>
               {errors.tags && (
-                <div className="mt-2">
-                  <span className="text-error text-sm">
-                    {errors.tags.message}
-                  </span>
+                <div className="mt-2 text-error text-sm">
+                  {errors.tags.message}
                 </div>
               )}
             </div>
 
             {/* Test Cases */}
-            <div className="card bg-base-200 p-4 md:p-6 shadow-md">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg md:text-xl font-semibold flex items-center gap-2">
+            <div className="card bg-base-200 p-6 shadow-md rounded-xl">
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-semibold flex items-center gap-2">
                   <CheckCircle2 className="w-5 h-5" />
                   Test Cases
                 </h3>
@@ -760,22 +841,151 @@ const CreateProblemForm = () => {
               </div>
               <div className="space-y-6">
                 {testCaseFields.map((field, index) => (
-                  <div key={field.id} className="card bg-base-100 shadow-md">
-                    <div className="card-body p-4 md:p-6">
-                      <div className="flex justify-between items-center mb-4">
-                        <h4 className="text-base md:text-lg font-semibold">
-                          Test Case #{index + 1}
-                        </h4>
-                        <button
-                          type="button"
-                          className="btn btn-ghost btn-sm text-error"
-                          onClick={() => removeTestCase(index)}
-                          disabled={testCaseFields.length === 1}
-                        >
-                          <Trash2 className="w-4 h-4 mr-1" /> Remove
-                        </button>
+                  <div
+                    key={field.id}
+                    className="card bg-base-100 p-4 shadow rounded-lg"
+                  >
+                    <div className="flex justify-between items-center mb-4">
+                      <h4 className="text-lg font-semibold">
+                        Test Case #{index + 1}
+                      </h4>
+                      <button
+                        type="button"
+                        className="btn btn-ghost btn-sm text-error"
+                        onClick={() => removeTestCase(index)}
+                        disabled={testCaseFields.length === 1}
+                      >
+                        <Trash2 className="w-4 h-4 mr-1" /> Remove
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="form-control">
+                        <label className="label">
+                          <span className="label-text font-medium">Input</span>
+                        </label>
+                        <textarea
+                          className="textarea textarea-bordered min-h-24 w-full p-3 resize-y"
+                          {...register(`testcases.${index}.input`)}
+                          placeholder="Enter test case input"
+                        />
+                        {errors.testcases?.[index]?.input && (
+                          <label className="label">
+                            <span className="label-text-alt text-error">
+                              {errors.testcases[index].input.message}
+                            </span>
+                          </label>
+                        )}
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                      <div className="form-control">
+                        <label className="label">
+                          <span className="label-text font-medium">
+                            Expected Output
+                          </span>
+                        </label>
+                        <textarea
+                          className="textarea textarea-bordered min-h-24 w-full p-3 resize-y"
+                          {...register(`testcases.${index}.output`)}
+                          placeholder="Enter expected output"
+                        />
+                        {errors.testcases?.[index]?.output && (
+                          <label className="label">
+                            <span className="label-text-alt text-error">
+                              {errors.testcases[index].output.message}
+                            </span>
+                          </label>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {errors.testcases && !Array.isArray(errors.testcases) && (
+                <div className="mt-2 text-error text-sm">
+                  {errors.testcases.message}
+                </div>
+              )}
+            </div>
+
+            {/* Code Editor Sections */}
+            <div className="space-y-10">
+              {["JAVASCRIPT", "PYTHON", "JAVA"].map((language) => (
+                <div
+                  key={language}
+                  className="card bg-base-200 p-6 shadow-md rounded-xl"
+                >
+                  <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
+                    <Code2 className="w-5 h-5" />
+                    {language}
+                  </h3>
+
+                  <div className="space-y-8">
+                    {/* Starter Code */}
+                    <div className="card bg-base-100 p-4 shadow rounded-md">
+                      <h4 className="font-semibold text-lg mb-4">
+                        Starter Code Template
+                      </h4>
+                      <Controller
+                        name={`codeSnippets.${language}`}
+                        control={control}
+                        render={({ field }) => (
+                          <Editor
+                            height="300px"
+                            language={language.toLowerCase()}
+                            theme="vs-dark"
+                            value={field.value}
+                            onChange={field.onChange}
+                            options={{
+                              minimap: { enabled: false },
+                              fontSize: 14,
+                              lineNumbers: "on",
+                              automaticLayout: true,
+                            }}
+                          />
+                        )}
+                      />
+                      {errors.codeSnippets?.[language] && (
+                        <p className="text-error text-sm mt-2">
+                          {errors.codeSnippets[language].message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Reference Solution */}
+                    <div className="card bg-base-100 p-4 shadow rounded-md">
+                      <h4 className="font-semibold text-lg mb-4 flex items-center gap-2">
+                        <CheckCircle2 className="w-5 h-5 text-success" />
+                        Reference Solution
+                      </h4>
+                      <Controller
+                        name={`referenceSolutions.${language}`}
+                        control={control}
+                        render={({ field }) => (
+                          <Editor
+                            height="300px"
+                            language={language.toLowerCase()}
+                            theme="vs-dark"
+                            value={field.value}
+                            onChange={field.onChange}
+                            options={{
+                              minimap: { enabled: false },
+                              fontSize: 14,
+                              lineNumbers: "on",
+                              automaticLayout: true,
+                            }}
+                          />
+                        )}
+                      />
+                      {errors.referenceSolutions?.[language] && (
+                        <p className="text-error text-sm mt-2">
+                          {errors.referenceSolutions[language].message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Examples */}
+                    <div className="card bg-base-100 p-4 shadow rounded-md">
+                      <h4 className="font-semibold text-lg mb-4">Example</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="form-control">
                           <label className="label">
                             <span className="label-text font-medium">
@@ -783,200 +993,44 @@ const CreateProblemForm = () => {
                             </span>
                           </label>
                           <textarea
-                            className="textarea textarea-bordered min-h-24 w-full p-3 resize-y"
-                            {...register(`testcases.${index}.input`)}
-                            placeholder="Enter test case input"
+                            className="textarea textarea-bordered min-h-20 w-full p-3 resize-y"
+                            {...register(`examples.${language}.input`)}
+                            placeholder="Example input"
                           />
-                          {errors.testcases?.[index]?.input && (
-                            <label className="label">
-                              <span className="label-text-alt text-error">
-                                {errors.testcases[index].input.message}
-                              </span>
-                            </label>
+                          {errors.examples?.[language]?.input && (
+                            <span className="label-text-alt text-error">
+                              {errors.examples[language].input.message}
+                            </span>
                           )}
                         </div>
                         <div className="form-control">
                           <label className="label">
                             <span className="label-text font-medium">
-                              Expected Output
+                              Output
+                            </span>
+                          </label>
+                          <textarea
+                            className="textarea textarea-bordered min-h-20 w-full p-3 resize-y"
+                            {...register(`examples.${language}.output`)}
+                            placeholder="Example output"
+                          />
+                          {errors.examples?.[language]?.output && (
+                            <span className="label-text-alt text-error">
+                              {errors.examples[language].output.message}
+                            </span>
+                          )}
+                        </div>
+                        <div className="form-control md:col-span-2">
+                          <label className="label">
+                            <span className="label-text font-medium">
+                              Explanation
                             </span>
                           </label>
                           <textarea
                             className="textarea textarea-bordered min-h-24 w-full p-3 resize-y"
-                            {...register(`testcases.${index}.output`)}
-                            placeholder="Enter expected output"
+                            {...register(`examples.${language}.explanation`)}
+                            placeholder="Explain the example"
                           />
-                          {errors.testcases?.[index]?.output && (
-                            <label className="label">
-                              <span className="label-text-alt text-error">
-                                {errors.testcases[index].output.message}
-                              </span>
-                            </label>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {errors.testcases && !Array.isArray(errors.testcases) && (
-                <div className="mt-2">
-                  <span className="text-error text-sm">
-                    {errors.testcases.message}
-                  </span>
-                </div>
-              )}
-            </div>
-
-            {/* Code Editor Sections */}
-            <div className="space-y-8">
-              {["JAVASCRIPT", "PYTHON", "JAVA"].map((language) => (
-                <div
-                  key={language}
-                  className="card bg-base-200 p-4 md:p-6 shadow-md"
-                >
-                  <h3 className="text-lg md:text-xl font-semibold mb-6 flex items-center gap-2">
-                    <Code2 className="w-5 h-5" />
-                    {language}
-                  </h3>
-
-                  <div className="space-y-6">
-                    {/* Starter Code */}
-                    <div className="card bg-base-100 shadow-md">
-                      <div className="card-body p-4 md:p-6">
-                        <h4 className="font-semibold text-base md:text-lg mb-4">
-                          Starter Code Template
-                        </h4>
-                        <div className="border rounded-md overflow-hidden">
-                          <Controller
-                            name={`codeSnippets.${language}`}
-                            control={control}
-                            render={({ field }) => (
-                              <Editor
-                                height="300px"
-                                language={language.toLowerCase()}
-                                theme="vs-dark"
-                                value={field.value}
-                                onChange={field.onChange}
-                                options={{
-                                  minimap: { enabled: false },
-                                  fontSize: 14,
-                                  lineNumbers: "on",
-                                  roundedSelection: false,
-                                  scrollBeyondLastLine: false,
-                                  automaticLayout: true,
-                                }}
-                              />
-                            )}
-                          />
-                        </div>
-                        {errors.codeSnippets?.[language] && (
-                          <div className="mt-2">
-                            <span className="text-error text-sm">
-                              {errors.codeSnippets[language].message}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Reference Solution */}
-                    <div className="card bg-base-100 shadow-md">
-                      <div className="card-body p-4 md:p-6">
-                        <h4 className="font-semibold text-base md:text-lg mb-4 flex items-center gap-2">
-                          <CheckCircle2 className="w-5 h-5 text-success" />
-                          Reference Solution
-                        </h4>
-                        <div className="border rounded-md overflow-hidden">
-                          <Controller
-                            name={`referenceSolutions.${language}`}
-                            control={control}
-                            render={({ field }) => (
-                              <Editor
-                                height="300px"
-                                language={language.toLowerCase()}
-                                theme="vs-dark"
-                                value={field.value}
-                                onChange={field.onChange}
-                                options={{
-                                  minimap: { enabled: false },
-                                  fontSize: 14,
-                                  lineNumbers: "on",
-                                  roundedSelection: false,
-                                  scrollBeyondLastLine: false,
-                                  automaticLayout: true,
-                                }}
-                              />
-                            )}
-                          />
-                        </div>
-                        {errors.referenceSolutions?.[language] && (
-                          <div className="mt-2">
-                            <span className="text-error text-sm">
-                              {errors.referenceSolutions[language].message}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Examples */}
-                    <div className="card bg-base-100 shadow-md">
-                      <div className="card-body p-4 md:p-6">
-                        <h4 className="font-semibold text-base md:text-lg mb-4">
-                          Example
-                        </h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                          <div className="form-control">
-                            <label className="label">
-                              <span className="label-text font-medium">
-                                Input
-                              </span>
-                            </label>
-                            <textarea
-                              className="textarea textarea-bordered min-h-20 w-full p-3 resize-y"
-                              {...register(`examples.${language}.input`)}
-                              placeholder="Example input"
-                            />
-                            {errors.examples?.[language]?.input && (
-                              <label className="label">
-                                <span className="label-text-alt text-error">
-                                  {errors.examples[language].input.message}
-                                </span>
-                              </label>
-                            )}
-                          </div>
-                          <div className="form-control">
-                            <label className="label">
-                              <span className="label-text font-medium">
-                                Output
-                              </span>
-                            </label>
-                            <textarea
-                              className="textarea textarea-bordered min-h-20 w-full p-3 resize-y"
-                              {...register(`examples.${language}.output`)}
-                              placeholder="Example output"
-                            />
-                            {errors.examples?.[language]?.output && (
-                              <label className="label">
-                                <span className="label-text-alt text-error">
-                                  {errors.examples[language].output.message}
-                                </span>
-                              </label>
-                            )}
-                          </div>
-                          <div className="form-control md:col-span-2">
-                            <label className="label">
-                              <span className="label-text font-medium">
-                                Explanation
-                              </span>
-                            </label>
-                            <textarea
-                              className="textarea textarea-bordered min-h-24 w-full p-3 resize-y"
-                              {...register(`examples.${language}.explanation`)}
-                              placeholder="Explain the example"
-                            />
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -986,8 +1040,8 @@ const CreateProblemForm = () => {
             </div>
 
             {/* Additional Information */}
-            <div className="card bg-base-200 p-4 md:p-6 shadow-md">
-              <h3 className="text-lg md:text-xl font-semibold mb-6 flex items-center gap-2">
+            <div className="card bg-base-200 p-6 shadow-md rounded-xl">
+              <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
                 <Lightbulb className="w-5 h-5 text-warning" />
                 Additional Information
               </h3>
@@ -1002,11 +1056,9 @@ const CreateProblemForm = () => {
                     placeholder="Enter problem constraints"
                   />
                   {errors.constraints && (
-                    <label className="label">
-                      <span className="label-text-alt text-error">
-                        {errors.constraints.message}
-                      </span>
-                    </label>
+                    <span className="label-text-alt text-error">
+                      {errors.constraints.message}
+                    </span>
                   )}
                 </div>
                 <div className="form-control">
@@ -1036,7 +1088,7 @@ const CreateProblemForm = () => {
               </div>
             </div>
 
-            <div className="card-actions justify-end pt-4 border-t">
+            <div className="card-actions justify-end pt-6 border-t">
               <button type="submit" className="btn btn-primary btn-lg gap-2">
                 {isLoading ? (
                   <span className="loading loading-spinner text-white"></span>

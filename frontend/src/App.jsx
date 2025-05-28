@@ -33,6 +33,8 @@ const App = () => {
       className="flex flex-col items-center justify-start min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden"
       data-theme="mytheme"
     >
+      <div className="absolute top-16 left-0 w-1/3 h-1/3 bg-primary opacity-40 blur-3xl rounded-md"></div>
+      <div className="absolute bottom-16 right-0 w-1/3 h-1/3 bg-secondary opacity-40 blur-3xl rounded-md"></div>
       <Toaster />
       <Routes>
         <Route path="/" element={<LandingPage />} />

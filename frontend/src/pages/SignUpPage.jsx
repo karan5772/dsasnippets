@@ -45,7 +45,9 @@ const SignUpPage = () => {
                 <Code className="w-6 h-6 text-primary" />
               </div>
               <h1 className="text-2xl font-bold mt-2">Welcome </h1>
-              <p className="text-base-content/60">Sign Up to your account</p>
+              <p className="text-base-content/60 text-gray-200">
+                Sign Up to your account
+              </p>
             </div>
           </div>
 
@@ -54,7 +56,9 @@ const SignUpPage = () => {
             {/* name */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Name</span>
+                <span className="label-text font-medium text-gray-200">
+                  Name
+                </span>
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -79,7 +83,9 @@ const SignUpPage = () => {
             {/* Email */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Email</span>
+                <span className="label-text font-medium text-gray-200">
+                  Email
+                </span>
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -88,9 +94,9 @@ const SignUpPage = () => {
                 <input
                   type="email"
                   {...register("email")}
-                  className={`input input-bordered w-full pl-10 ${
+                  className={`input input-bordered w-full pl-10  ${
                     errors.email ? "input-error" : ""
-                  }`}
+                  } `}
                   placeholder="you@example.com"
                 />
               </div>
@@ -104,7 +110,9 @@ const SignUpPage = () => {
             {/* Password */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Password</span>
+                <span className="label-text font-medium text-gray-200">
+                  Password
+                </span>
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -140,12 +148,12 @@ const SignUpPage = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="btn btn-primary w-full"
+              className="btn btn-primary w-full text-gray-200"
               disabled={isSigninUp}
             >
               {isSigninUp ? (
                 <>
-                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <Loader2 className="h-5 w-5 animate-spin text-gray-200" />
                   Loading...
                 </>
               ) : (
@@ -156,7 +164,7 @@ const SignUpPage = () => {
 
           {/* Footer */}
           <div className="text-center">
-            <p className="text-base-content/60">
+            <p className="text-base-content/60 text-gray-200">
               Already have an account?{" "}
               <Link to="/login" className="link link-primary">
                 Sign in

@@ -75,9 +75,9 @@ const SubmissionResults = ({ submission }) => {
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title mb-4">Test Cases Results</h2>
-          <div className="overflow-x-auto">
-            <table className="table table-zebra w-full">
-              <thead>
+          <div className="overflow-x-auto rounded-lg">
+            <table className="table table-zebra w-full rounded-lg">
+              <thead className="bg-gray-700 rounded-lg">
                 <tr>
                   <th>Status</th>
                   <th>Expected Output</th>

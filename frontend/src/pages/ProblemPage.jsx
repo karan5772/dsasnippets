@@ -15,6 +15,9 @@ import {
   Users,
   ThumbsUp,
   Home,
+  ArrowLeft,
+  MoveLeft,
+  ChevronLeft,
 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useProblemStore } from "../store/useProblemStore";
@@ -38,7 +41,7 @@ const ProblemPage = () => {
 
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
-  const [selectedLanguage, setSelectedLanguage] = useState("JAVASCRIPT");
+  const [selectedLanguage, setSelectedLanguage] = useState(" ");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testcases, setTestCases] = useState([]);
 
@@ -50,8 +53,21 @@ const ProblemPage = () => {
   }, [id]);
 
   useEffect(() => {
+    if (
+      problem?.codeSnippets &&
+      selectedLanguage.toLowerCase() in problem.codeSnippets
+    ) {
+      setCode(problem.codeSnippets[selectedLanguage.toLowerCase()]);
+    }
+  }, [problem, selectedLanguage]);
+
+  useEffect(() => {
     if (problem && problem.codeSnippets) {
-      setCode(problem.codeSnippets["javascript"] || ""); // Default to JavaScript code
+      console.log("Code Snippets:", problem.codeSnippets);
+      setCode(
+        problem.codeSnippets["javascript"] ||
+          "// Select Programming Langauge from\n// above to start Writing answer"
+      );
     }
   }, [problem]);
 
@@ -105,40 +121,45 @@ const ProblemPage = () => {
     switch (activeTab) {
       case "description":
         return (
-          <div className="prose max-w-none">
-            <p className="text-lg mb-6">{problem.description}</p>
+          <div className="prose max-w-none text-lg font-semibold">
+            <h2 className="text-xl font-bold mb-4">Description:</h2>
+            <p className="text-base bg-base-100 p-4 rounded-lg mb-4">
+              {problem.description}
+            </p>
 
             {problem.examples && (
               <>
-                <h3 className="text-xl font-bold mb-4">Examples:</h3>
+                <h3 className="text-lg font-bold mb-4">Examples:</h3>
                 {Object.entries(problem.examples).map(
                   ([lang, example], idx) => (
                     <div
                       key={lang}
-                      className="bg-base-200 p-6 rounded-xl mb-6 font-mono"
+                      className="bg-base-200 border border-base-300 rounded-lg p-4 mb-4 shadow-sm"
                     >
-                      <div className="mb-4">
-                        <div className="text-indigo-300 mb-2 text-base font-semibold">
+                      <div className="mb-3">
+                        <label className="block text-sm font-semibold text-primary mb-1">
                           Input:
-                        </div>
-                        <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+                        </label>
+                        <pre className="bg-gray-900 text-white text-sm px-3 py-2 rounded-lg max-w-3xl whitespace-pre-wrap overflow-x-auto">
                           {example.input}
-                        </span>
+                        </pre>
                       </div>
-                      <div className="mb-4">
-                        <div className="text-indigo-300 mb-2 text-base font-semibold">
+
+                      <div className="mb-3">
+                        <label className="block text-sm font-semibold text-secondary mb-1">
                           Output:
-                        </div>
-                        <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+                        </label>
+                        <pre className="bg-gray-900 text-white text-sm px-3 py-2 rounded-lg max-w-3xl whitespace-pre-wrap overflow-x-auto">
                           {example.output}
-                        </span>
+                        </pre>
                       </div>
+
                       {example.explanation && (
                         <div>
-                          <div className="text-emerald-300 mb-2 text-base font-semibold">
+                          <label className="block text-sm font-semibold text-success mb-1">
                             Explanation:
-                          </div>
-                          <p className="text-base-content/70 text-lg font-sem">
+                          </label>
+                          <p className="text-base-content/80 text-sm leading-relaxed max-w-3xl">
                             {example.explanation}
                           </p>
                         </div>
@@ -151,11 +172,9 @@ const ProblemPage = () => {
 
             {problem.constraints && (
               <>
-                <h3 className="text-xl font-bold mb-4">Constraints:</h3>
-                <div className="bg-base-200 p-6 rounded-xl mb-6">
-                  <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
-                    {problem.constraints}
-                  </span>
+                <h3 className="text-lg font-bold mb-4">Constraints:</h3>
+                <div className="bg-base-200 p-8 rounded-xl mb-6 text-center bg-black/90 px-6 py-3 rounded-lg font-semibold text-white text-lg text-center">
+                  <span className="p-10">{problem.constraints}</span>
                 </div>
               </>
             )}
@@ -197,18 +216,25 @@ const ProblemPage = () => {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-base-300 to-base-200 max-w-7xl w-full min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden"
+      className="bg-gradient-to-br from-base-300 to-base-200 max-w-full w-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden p-10"
       data-theme="mytheme"
     >
-      <nav className="navbar bg-base-100 shadow-lg px-4 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800">
-        <div className="flex-1 gap-2">
-          <Link to={"/home"} className="flex items-center gap-2 text-primary">
-            <Home className="w-6 h-6" />
-            <ChevronRight className="w-4 h-4" />
-          </Link>
+      <nav className="navbar bg-base-100 shadow-lg px-4 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 rounded-lg pt-4 pb-4 pl-5 pr-5">
+        <div className="flex-1 gap-2 ">
+          <div className="btn btn-soft p-2 pr-5 bg-gray-900  ">
+            <Link
+              to={"/home"}
+              className="flex items-center gap-2 text-primary hover:text-primary-focus"
+            >
+              <ChevronLeft className="w-6 h-6 " />
+              <div className=""> Back</div>
+            </Link>
+          </div>
           <div className="mt-2">
-            <h1 className="text-xl font-bold">{problem.title}</h1>
-            <div className="flex items-center gap-2 text-sm text-base-content/70 mt-5">
+            <h1 className="text-2xl font-extrabold text-white pt-3">
+              {problem.title}
+            </h1>
+            <div className="flex items-center gap-2 text-sm text-gray-400 mt-5">
               <Clock className="w-4 h-4" />
               <span>
                 Updated{" "}
@@ -218,29 +244,21 @@ const ProblemPage = () => {
                   day: "numeric",
                 })}
               </span>
-              <span className="text-base-content/30">•</span>
+              <span className="text-gray-500">•</span>
               <Users className="w-4 h-4" />
               <span>{submissionCount} Submissions</span>
-              <span className="text-base-content/30">•</span>
-              <ThumbsUp className="w-4 h-4" />
-              <span>95% Success Rate</span>
             </div>
           </div>
         </div>
         <div className="flex-none gap-4">
           <button
-            className={`btn btn-ghost btn-circle ${
-              isBookmarked ? "text-primary" : ""
-            }`}
-            onClick={() => setIsBookmarked(!isBookmarked)}
+            className="btn btn-ghost btn-circle hover:text-gray-400 mr-4 ml-4"
+            onClick={() => navigator.clipboard.writeText(window.location.href)}
           >
-            <Bookmark className="w-5 h-5" />
-          </button>
-          <button className="btn btn-ghost btn-circle">
             <Share2 className="w-5 h-5" />
           </button>
           <select
-            className="select select-bordered select-primary w-40"
+            className="select select-bordered select-primary w-40 bg-gray-800 text-white"
             value={selectedLanguage}
             onChange={handleLanguageChange}
           >
@@ -253,14 +271,17 @@ const ProblemPage = () => {
         </div>
       </nav>
 
-      <div className="container mx-auto p-6 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="card bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 text-white shadow-2xl">
-            <div className="card-body p-0">
-              <div className="tabs tabs-bordered">
+      <div className="container mx-auto pt-6 max-w-full">
+        <div className="grid grid-cols-5 gap-6">
+          {/* Left Content (40% width) */}
+          <div className="col-span-2 card bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 text-white shadow-2xl rounded-lg">
+            <div className="card-body p-0 ">
+              <div className="tabs tabs-bordered rounded-t-lg">
                 <button
                   className={`tab gap-2 text-base font-medium transition-all ${
-                    activeTab === "description" ? "tab-active" : ""
+                    activeTab === "description"
+                      ? "tab-active text-primary"
+                      : "hover:text-gray-400"
                   }`}
                   onClick={() => setActiveTab("description")}
                 >
@@ -269,7 +290,9 @@ const ProblemPage = () => {
                 </button>
                 <button
                   className={`tab gap-2 text-base font-medium transition-all ${
-                    activeTab === "submissions" ? "tab-active" : ""
+                    activeTab === "submissions"
+                      ? "tab-active text-primary"
+                      : "hover:text-gray-400"
                   }`}
                   onClick={() => setActiveTab("submissions")}
                 >
@@ -278,7 +301,9 @@ const ProblemPage = () => {
                 </button>
                 <button
                   className={`tab gap-2 text-base font-medium transition-all ${
-                    activeTab === "discussion" ? "tab-active" : ""
+                    activeTab === "discussion"
+                      ? "tab-active text-primary"
+                      : "hover:text-gray-400"
                   }`}
                   onClick={() => setActiveTab("discussion")}
                 >
@@ -287,7 +312,9 @@ const ProblemPage = () => {
                 </button>
                 <button
                   className={`tab gap-2 text-base font-medium transition-all ${
-                    activeTab === "hints" ? "tab-active" : ""
+                    activeTab === "hints"
+                      ? "tab-active text-primary"
+                      : "hover:text-gray-400"
                   }`}
                   onClick={() => setActiveTab("hints")}
                 >
@@ -300,16 +327,16 @@ const ProblemPage = () => {
             </div>
           </div>
 
-          <div className="card bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 text-white shadow-2xl">
+          <div className="col-span-3 card bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 text-white shadow-2xl rounded-lg">
             <div className="card-body p-0">
-              <div className="tabs tabs-bordered">
-                <button className="tab tab-active gap-2 text-base font-medium">
+              <div className="tabs tabs-bordered rounded-t-lg">
+                <button className="tab tab-active gap-2 text-base font-medium text-primary">
                   <Terminal className="w-5 h-5" />
                   Code Editor
                 </button>
               </div>
 
-              <div className="h-[600px] w-full border-t border-base-300">
+              <div className="h-full w-full border-t border-gray-700">
                 <Editor
                   height="100%"
                   language={selectedLanguage.toLowerCase()}
@@ -328,11 +355,11 @@ const ProblemPage = () => {
                 />
               </div>
 
-              <div className="p-4 border-t border-base-300 bg-base-200">
+              <div className="p-4 border-t border-gray-700 bg-gray-800 rounded-b-lg">
                 <div className="flex justify-between items-center">
                   <button
                     className={`btn btn-primary gap-2 ${
-                      isExecuting ? "loading" : ""
+                      isExecuting ? "loading" : "hover:shadow-lg"
                     }`}
                     onClick={handleRunCode}
                     disabled={isExecuting}
@@ -340,7 +367,7 @@ const ProblemPage = () => {
                     {!isExecuting && <Play className="w-5 h-5" />}
                     Run Code
                   </button>
-                  <button className="btn btn-success gap-2">
+                  <button className="btn btn-success gap-2 hover:shadow-lg">
                     Submit Solution
                   </button>
                 </div>
@@ -349,18 +376,20 @@ const ProblemPage = () => {
           </div>
         </div>
 
-        <div className="card bg-base-100 shadow-xl ">
-          <div className="card-body ">
+        <div className="card bg-base-100 shadow-xl rounded-lg mt-7">
+          <div className="card-body">
             {submission ? (
               <Submission submission={submission} />
             ) : (
               <>
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-2xl font-bold">Test Cases</h3>
+                  <h3 className="text-2xl font-bold text-gray-100">
+                    Test Cases
+                  </h3>
                 </div>
-                <div className="overflow-x-auto">
-                  <table className="table table-zebra w-full">
-                    <thead>
+                <div className="overflow-x-auto rounded-lg">
+                  <table className="table table-zebra w-full rounded-lg">
+                    <thead className="bg-gray-700 rounded-lg">
                       <tr>
                         <th>Input</th>
                         <th>Expected Output</th>
@@ -369,10 +398,10 @@ const ProblemPage = () => {
                     <tbody>
                       {testcases.map((testCase, index) => (
                         <tr key={index}>
-                          <td className="font-mono whitespace-pre-wrap">
+                          <td className="font-mono whitespace-pre-wrap text-white">
                             {testCase.input}
                           </td>
-                          <td className="font-mono whitespace-pre-wrap">
+                          <td className="font-mono whitespace-pre-wrap text-white">
                             {testCase.output}
                           </td>
                         </tr>
