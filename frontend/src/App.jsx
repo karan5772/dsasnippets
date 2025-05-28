@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 import HomePage from "./pages/HomePage";
@@ -52,12 +52,13 @@ const App = () => {
 
         <Route
           path="/problem/:id"
-          element={!authUser ? <ProblemPage /> : <Navigate to={"/login"} />}
+          element={authUser ? <ProblemPage /> : <Navigate to={"/login"} />}
         />
+
         <Route element={<AdminRoute />}>
           <Route
             path="/add-problem"
-            element={authUser ? <AddProblem /> : <Navigate to="/home" />}
+            element={authUser ? <AddProblem /> : <Navigate to={"/home"} />}
           />
         </Route>
       </Routes>
