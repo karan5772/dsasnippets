@@ -19,8 +19,8 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { useProblemStore } from "../store/useProblemStore";
 import { getLanguageId } from "../lib/lang.js";
-//import { useExecutionStore } from "../store/useExecutionStore";
-//import { useSubmissionStore } from "../store/useSubmissionStore";
+import { useExecutionStore } from "../store/useExecutionStore";
+import { useSubmissionStore } from "../store/useSubmissionStore";
 import Submission from "../components/Submission";
 import SubmissionsList from "../components/SubmissionList";
 
@@ -28,13 +28,13 @@ const ProblemPage = () => {
   const { id } = useParams();
   const { getProblemById, problem, isProblemLoading } = useProblemStore();
 
-  // const {
-  //   submission: submissions,
-  //   isLoading: isSubmissionsLoading,
-  //   getSubmissionForProblem,
-  //   getSubmissionCountForProblem,
-  //   submissionCount,
-  // } = useSubmissionStore();
+  const {
+    submission: submissions,
+    isLoading: isSubmissionsLoading,
+    getSubmissionForProblem,
+    getSubmissionCountForProblem,
+    submissionCount,
+  } = useSubmissionStore();
 
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
@@ -42,11 +42,11 @@ const ProblemPage = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testcases, setTestCases] = useState([]);
 
-  // const { executeCode, submission, isExecuting } = useExecutionStore();
+  const { executeCode, submission, isExecuting } = useExecutionStore();
 
   useEffect(() => {
     getProblemById(id);
-    // getSubmissionCountForProblem(id);
+    getSubmissionCountForProblem(id);
   }, [id]);
 
   useEffect(() => {
@@ -190,8 +190,11 @@ const ProblemPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-base-300 to-base-200 max-w-7xl w-full">
-      <nav className="navbar bg-base-100 shadow-lg px-4">
+    <div
+      className="min-h-screen bg-gradient-to-br from-base-300 to-base-200 max-w-7xl w-full min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden"
+      data-theme="mytheme"
+    >
+      <nav className="navbar bg-base-100 shadow-lg px-4 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800">
         <div className="flex-1 gap-2">
           <Link to={"/"} className="flex items-center gap-2 text-primary">
             <Home className="w-6 h-6" />
@@ -211,7 +214,7 @@ const ProblemPage = () => {
               </span>
               <span className="text-base-content/30">•</span>
               <Users className="w-4 h-4" />
-              <span>10 Submissions</span>
+              <span>{submissionCount} Submissions</span>
               <span className="text-base-content/30">•</span>
               <ThumbsUp className="w-4 h-4" />
               <span>95% Success Rate</span>
@@ -244,45 +247,45 @@ const ProblemPage = () => {
         </div>
       </nav>
 
-      <div className="container mx-auto p-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="card bg-base-100 shadow-xl">
+      <div className="container mx-auto p-6 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="card bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 text-white shadow-2xl">
             <div className="card-body p-0">
               <div className="tabs tabs-bordered">
                 <button
-                  className={`tab gap-2 ${
+                  className={`tab gap-2 text-base font-medium transition-all ${
                     activeTab === "description" ? "tab-active" : ""
                   }`}
                   onClick={() => setActiveTab("description")}
                 >
-                  <FileText className="w-4 h-4" />
+                  <FileText className="w-5 h-5" />
                   Description
                 </button>
                 <button
-                  className={`tab gap-2 ${
+                  className={`tab gap-2 text-base font-medium transition-all ${
                     activeTab === "submissions" ? "tab-active" : ""
                   }`}
                   onClick={() => setActiveTab("submissions")}
                 >
-                  <Code2 className="w-4 h-4" />
+                  <Code2 className="w-5 h-5" />
                   Submissions
                 </button>
                 <button
-                  className={`tab gap-2 ${
+                  className={`tab gap-2 text-base font-medium transition-all ${
                     activeTab === "discussion" ? "tab-active" : ""
                   }`}
                   onClick={() => setActiveTab("discussion")}
                 >
-                  <MessageSquare className="w-4 h-4" />
+                  <MessageSquare className="w-5 h-5" />
                   Discussion
                 </button>
                 <button
-                  className={`tab gap-2 ${
+                  className={`tab gap-2 text-base font-medium transition-all ${
                     activeTab === "hints" ? "tab-active" : ""
                   }`}
                   onClick={() => setActiveTab("hints")}
                 >
-                  <Lightbulb className="w-4 h-4" />
+                  <Lightbulb className="w-5 h-5" />
                   Hints
                 </button>
               </div>
@@ -291,16 +294,16 @@ const ProblemPage = () => {
             </div>
           </div>
 
-          <div className="card bg-base-100 shadow-xl">
+          <div className="card bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 text-white shadow-2xl">
             <div className="card-body p-0">
               <div className="tabs tabs-bordered">
-                <button className="tab tab-active gap-2">
-                  <Terminal className="w-4 h-4" />
+                <button className="tab tab-active gap-2 text-base font-medium">
+                  <Terminal className="w-5 h-5" />
                   Code Editor
                 </button>
               </div>
 
-              <div className="h-[600px] w-full">
+              <div className="h-[600px] w-full border-t border-base-300">
                 <Editor
                   height="100%"
                   language={selectedLanguage.toLowerCase()}
@@ -309,7 +312,7 @@ const ProblemPage = () => {
                   onChange={(value) => setCode(value || "")}
                   options={{
                     minimap: { enabled: false },
-                    fontSize: 20,
+                    fontSize: 18,
                     lineNumbers: "on",
                     roundedSelection: false,
                     scrollBeyondLastLine: false,
@@ -322,10 +325,13 @@ const ProblemPage = () => {
               <div className="p-4 border-t border-base-300 bg-base-200">
                 <div className="flex justify-between items-center">
                   <button
-                    className={`btn btn-primary gap-2 "loading" `}
-                    onClick={() => {}}
+                    className={`btn btn-primary gap-2 ${
+                      isExecuting ? "loading" : ""
+                    }`}
+                    onClick={handleRunCode}
+                    disabled={isExecuting}
                   >
-                    <Play className="w-4 h-4" />
+                    {!isExecuting && <Play className="w-5 h-5" />}
                     Run Code
                   </button>
                   <button className="btn btn-success gap-2">
@@ -337,14 +343,14 @@ const ProblemPage = () => {
           </div>
         </div>
 
-        <div className="card bg-base-100 shadow-xl mt-6">
-          {/* <div className="card-body">
+        <div className="card bg-base-100 shadow-xl ">
+          <div className="card-body ">
             {submission ? (
-              <h1>HELLO</h1>
+              <Submission submission={submission} />
             ) : (
               <>
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-bold">Test Cases</h3>
+                  <h3 className="text-2xl font-bold">Test Cases</h3>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="table table-zebra w-full">
@@ -357,8 +363,12 @@ const ProblemPage = () => {
                     <tbody>
                       {testcases.map((testCase, index) => (
                         <tr key={index}>
-                          <td className="font-mono">{testCase.input}</td>
-                          <td className="font-mono">{testCase.output}</td>
+                          <td className="font-mono whitespace-pre-wrap">
+                            {testCase.input}
+                          </td>
+                          <td className="font-mono whitespace-pre-wrap">
+                            {testCase.output}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -366,7 +376,7 @@ const ProblemPage = () => {
                 </div>
               </>
             )}
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

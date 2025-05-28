@@ -29,7 +29,10 @@ const App = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-start ">
+    <div
+      className="flex flex-col items-center justify-start min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden"
+      data-theme="mytheme"
+    >
       <Toaster />
       <Routes>
         <Route path="/" element={<LandingPage />} />

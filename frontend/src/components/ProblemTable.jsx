@@ -2,16 +2,26 @@ import React, { useState, useMemo, useRef, useEffect } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Link } from "react-router-dom";
 import { Bookmark, PencilIcon, TrashIcon, ArrowUp, Plus } from "lucide-react";
+import { useActions } from "../store/useAction";
+import { usePlaylistStore } from "../store/usePlaylistStore";
+import CreatePlaylistModal from "./CreatePlaylistModal";
+import AddToPlaylistModal from "./AddToPlaylist";
 
 const ProblemsTable = ({ problems }) => {
   const { authUser } = useAuthStore();
 
   const [search, setSearch] = useState("");
+  const { isDeletingProblem, onDeleteProblem } = useActions();
   const [difficulty, setDifficulty] = useState("ALL");
   const [selectedTag, setSelectedTag] = useState("ALL");
   const [visibleProblems, setVisibleProblems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const { createPlaylist } = usePlaylistStore();
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
+    useState(false);
+  const [selectedProblemId, setSelectedProblemId] = useState(null);
 
   const observerRef = useRef(null);
 
@@ -89,6 +99,26 @@ const ProblemsTable = ({ problems }) => {
     setVisibleProblems(filteredProblems.slice(0, 5));
     setHasMore(true);
   }, [filteredProblems]);
+
+  // To delete the problems
+  const handleDelete = (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this problem? This action cannot be undone."
+    );
+
+    if (!confirmDelete) return;
+    onDeleteProblem(id); // Call the delete function
+    setVisibleProblems((prev) => prev.filter((problem) => problem.id !== id)); // Remove the deleted problem
+  };
+
+  const handleCreatePlaylist = async (data) => {
+    await createPlaylist(data);
+  };
+
+  const handleAddToPlaylist = (problemId) => {
+    setSelectedProblemId(problemId);
+    setIsAddToPlaylistModalOpen(true);
+  };
 
   // Show scroll-to-top button when scrolling down
   useEffect(() => {
@@ -258,6 +288,18 @@ const ProblemsTable = ({ problems }) => {
           <ArrowUp className="w-6 h-6" />
         </button>
       )}
+
+      <CreatePlaylistModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onSubmit={handleCreatePlaylist}
+      />
+
+      <AddToPlaylistModal
+        isOpen={isAddToPlaylistModalOpen}
+        onClose={() => setIsAddToPlaylistModalOpen(false)}
+        problemId={selectedProblemId}
+      />
     </div>
   );
 };

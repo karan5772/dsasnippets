@@ -80,9 +80,9 @@ const LandingPage = () => {
             <div className="hidden md:flex items-center space-x-8">
               <Link
                 to="/home"
-                className="text-gray-300 hover:text-purple-400 transition-colors duration-300 font-medium"
+                className="btn btn-outline btn-primary text-lg text-white"
               >
-                Home
+                Go to Problems
               </Link>
             </div>
 
@@ -564,7 +564,7 @@ const LandingPage = () => {
               </div>
 
               {/* Social Links */}
-              <div className="flex justify-center space-x-6 mb-12">
+              {/* <div className="flex justify-center space-x-6 mb-12">
                 <a
                   href="https://github.com/karan5772/leetLab"
                   className="group relative inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r from-purple-600/20 to-cyan-600/20 backdrop-blur-sm border border-purple-500/30 rounded-full hover:from-purple-600/40 hover:to-cyan-600/40 transition-all duration-300 transform hover:scale-110"
@@ -574,7 +574,7 @@ const LandingPage = () => {
                   <Github className="h-6 w-6 text-white group-hover:text-purple-300 transition-colors duration-300" />
                   <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 to-cyan-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </a>
-              </div>
+              </div> */}
 
               {/* Coming Soon Notice */}
               <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 backdrop-blur-sm border border-purple-500/20 rounded-full px-8 py-4 mb-8">

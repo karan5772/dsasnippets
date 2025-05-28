@@ -41,7 +41,7 @@ export const execute = async (req, res) => {
     //Pool judge0 for all submitted Test Cases
     const results = await poolBatchResults(tokens);
 
-    console.log("Result : \n", results);
+    //console.log("Result : \n", results);
     //Let's analyze the output taht we get from the judge0
 
     let allPassed = true;
@@ -99,7 +99,7 @@ export const execute = async (req, res) => {
           : null,
       },
     });
-    console.log("Ye vo Submission vala hai BD vala", submission);
+    // console.log("Ye vo Submission vala hai BD vala", submission);
 
     // Store the proble and user in Solved Problem DB
     // NOTE:- Do it only if the problem is solved i.e., all test cases are passed
@@ -154,13 +154,14 @@ export const execute = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      messege: "Execution and all is Done Bro!",
+      message: "Sucessfully Executed the problem",
+      submission: submissionWithTestCase,
     });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       success: false,
-      messege: "Server issue hai bhai",
+      message: "Server issue hai bhai",
     });
   }
 };

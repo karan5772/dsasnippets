@@ -23,7 +23,7 @@ problemRouts.put(
   updateProblem
 );
 
-problemRouts.post(
+problemRouts.delete(
   "/delete-Problem/:id",
   authMiddleware,
   checkAdmin,

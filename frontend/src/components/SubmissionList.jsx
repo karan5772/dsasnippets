@@ -70,7 +70,7 @@ const SubmissionsList = ({ submissions, isLoading }) => {
               <div className="flex items-center justify-between">
                 {/* Left Section: Status and Language */}
                 <div className="flex items-center gap-4">
-                  {submission.status === "Accepted" ? (
+                  {submission.status === "ACCEPTED" ? (
                     <div className="flex items-center gap-2 text-success">
                       <CheckCircle2 className="w-6 h-6" />
                       <span className="font-semibold">Accepted</span>

@@ -16,7 +16,7 @@ export const createPlaylist = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Playlist created successfully",
-      playList,
+      playlist,
     });
   } catch (error) {
     console.error("Error creating playlist:", error);
@@ -37,7 +37,7 @@ export const getAllListDetails = async (req, res) => {
       include: {
         problems: {
           include: {
-            problems: true,
+            problem: true,
           },
         },
       },
@@ -108,7 +108,7 @@ export const addProblemToPlaylist = async (req, res) => {
   const { problemIds } = req.body;
   const playlistId = req.params.playlistId;
   try {
-    if (!Array.isArray(problemIds) || problemIds.length() === 0) {
+    if (!Array.isArray(problemIds) || problemIds.length === 0) {
       return scrollbars.status(404).json({
         success: false,
         message: "Invalid or Missing Problem ID's",
@@ -116,9 +116,10 @@ export const addProblemToPlaylist = async (req, res) => {
     }
 
     const problemsInPlaylist = await db.problemsInPlaylist.createMany({
-      data: problemIds.map((problemId) => {
-        playlistId, problemId;
-      }),
+      data: problemIds.map((problemId) => ({
+        playlistId,
+        problemId,
+      })),
     });
 
     res.status(201).json({
@@ -170,7 +171,7 @@ export const removeProblemFromPlaylist = async (req, res) => {
   const { playlistId } = req.params;
   const { problemIds } = req.body;
   try {
-    if (!Array.isArray(problemIds) || problemIds.length() === 0) {
+    if (!Array.isArray(problemIds) || problemIds.length === 0) {
       return scrollbars.status(404).json({
         success: false,
         message: "Invalid or Missing Problem ID's",
