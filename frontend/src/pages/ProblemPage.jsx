@@ -38,7 +38,7 @@ const ProblemPage = () => {
 
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
-  const [selectedLanguage, setSelectedLanguage] = useState("javascript");
+  const [selectedLanguage, setSelectedLanguage] = useState("JAVASCRIPT");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testcases, setTestCases] = useState([]);
 
@@ -48,6 +48,12 @@ const ProblemPage = () => {
     getProblemById(id);
     getSubmissionCountForProblem(id);
   }, [id]);
+
+  useEffect(() => {
+    if (problem && problem.codeSnippets) {
+      setCode(problem.codeSnippets["javascript"] || ""); // Default to JavaScript code
+    }
+  }, [problem]);
 
   useEffect(() => {
     if (problem) {
@@ -196,7 +202,7 @@ const ProblemPage = () => {
     >
       <nav className="navbar bg-base-100 shadow-lg px-4 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800">
         <div className="flex-1 gap-2">
-          <Link to={"/"} className="flex items-center gap-2 text-primary">
+          <Link to={"/home"} className="flex items-center gap-2 text-primary">
             <Home className="w-6 h-6" />
             <ChevronRight className="w-4 h-4" />
           </Link>
@@ -312,7 +318,7 @@ const ProblemPage = () => {
                   onChange={(value) => setCode(value || "")}
                   options={{
                     minimap: { enabled: false },
-                    fontSize: 18,
+                    fontSize: 15,
                     lineNumbers: "on",
                     roundedSelection: false,
                     scrollBeyondLastLine: false,
