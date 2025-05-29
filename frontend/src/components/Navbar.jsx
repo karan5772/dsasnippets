@@ -7,8 +7,6 @@ import LogoutButton from "./LogoutButton";
 const Navbar = () => {
   const { authUser } = useAuthStore();
 
-  // console.log("AUTH_USER", authUser);
-
   return (
     <nav className="sticky top-0 z-50 w-full py-5">
       <div className="flex w-full justify-between mx-auto max-w-4xl bg-black/15 shadow-lg shadow-neutral-600/5 backdrop-blur-lg border border-gray-200/10 p-4 rounded-2xl">
@@ -23,63 +21,76 @@ const Navbar = () => {
           </span>
         </Link>
 
-        {/* User Profile and Dropdown */}
+        {/* Conditional Rendering for Authenticated and Non-Authenticated Users */}
         <div className="flex items-center gap-8">
-          <div className="dropdown dropdown-end">
-            <label
-              tabIndex={0}
-              className="btn btn-ghost btn-circle avatar flex flex-row "
-            >
-              <div className="w-10 rounded-full ">
-                <img
-                  src={
-                    authUser?.image ||
-                    "https://avatar.iran.liara.run/public/boy"
-                  }
-                  alt="User Avatar"
-                  className="object-cover"
-                />
-              </div>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 space-y-3"
-            >
-              {/* Admin Option */}
-
-              {/* Common Options */}
-              <li>
-                <p className="text-base font-semibold">{authUser?.name}</p>
-                <hr className="border-gray-200/10" />
-              </li>
-              <li>
-                <Link
-                  to="/profile"
-                  className="hover:bg-primary hover:text-white text-base font-semibold"
-                >
-                  <User className="w-4 h-4 mr-2" />
-                  My Profile
-                </Link>
-              </li>
-              {authUser?.role === "ADMIN" && (
+          {authUser ? (
+            // User Profile and Dropdown
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost btn-circle">
+                <div className="bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold ring ring-primary ring-offset-base-100 ring-offset-2">
+                  {authUser.name
+                    ? authUser.name
+                        .split(" ")
+                        .map((word) => word.charAt(0))
+                        .join("")
+                        .toUpperCase()
+                    : "U"}
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 space-y-3"
+              >
+                {/* Common Options */}
+                <li>
+                  <p className="text-base font-semibold">{authUser.name}</p>
+                  <hr className="border-gray-200/10" />
+                </li>
                 <li>
                   <Link
-                    to="/add-problem"
+                    to="/profile"
                     className="hover:bg-primary hover:text-white text-base font-semibold"
                   >
-                    <Code className="w-4 h-4 mr-1" />
-                    Add Problem
+                    <User className="w-4 h-4 mr-2" />
+                    My Profile
                   </Link>
                 </li>
-              )}
-              <li>
-                <LogoutButton className="hover:bg-primary hover:text-white">
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Logout
-                </LogoutButton>
-              </li>
-            </ul>
-          </div>
+                {authUser.role === "ADMIN" && (
+                  <li>
+                    <Link
+                      to="/add-problem"
+                      className="hover:bg-primary hover:text-white text-base font-semibold"
+                    >
+                      <Code className="w-4 h-4 mr-1" />
+                      Add Problem
+                    </Link>
+                  </li>
+                )}
+                <li>
+                  <LogoutButton className="hover:bg-primary hover:text-white">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Logout
+                  </LogoutButton>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            // Login and Sign Up Buttons
+            <div className="flex items-center gap-4">
+              <Link
+                to="/login"
+                className="btn btn-outline btn-primary text-sm md:text-base"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="btn btn-primary text-sm md:text-base"
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>

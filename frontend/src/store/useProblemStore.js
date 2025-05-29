@@ -13,7 +13,7 @@ export const useProblemStore = create((set) => ({
     try {
       set({ isProblemsLoading: true });
 
-      const res = await axiosInstance.get("/problems/get-all-problems");
+      const res = await axiosInstance.get("/problems/get-All-Problems");
 
       set({ problems: res.data.problems });
     } catch (error) {
@@ -44,7 +44,7 @@ export const useProblemStore = create((set) => ({
 
   getSolvedProblemByUser: async () => {
     try {
-      const res = await axiosInstance.get("/problems/get-solved-problem");
+      const res = await axiosInstance.get("/problems/get-Solved-Problems");
 
       set({ solvedProblems: res.data.problems });
     } catch (error) {

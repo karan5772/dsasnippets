@@ -11,6 +11,7 @@ import {
   BookOpen,
   CheckCircle2,
   Download,
+  Loader2,
 } from "lucide-react";
 import Editor from "@monaco-editor/react";
 import { useState } from "react";
@@ -683,9 +684,15 @@ const CreateProblemForm = () => {
             <div className="relative w-full max-w-2xl">
               <input
                 type="text"
-                className="w-full pl-14 pr-14 py-4 text-lg text-white rounded-full bg-[#121212] border-2 border-pink-500/60 focus:outline-none focus:ring-4 focus:ring-pink-600/40 shadow-lg placeholder:text-gray-300"
+                className="w-full pl-14 pr-20 py-4 text-lg text-white rounded-full bg-[#121212] border-2 border-pink-500/60 focus:outline-none focus:ring-4 focus:ring-pink-600/40 shadow-lg placeholder:text-gray-300"
                 placeholder="Describe your problem idea..."
                 onChange={(e) => setPrompt(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault(); // Prevent form submission if inside a form
+                    fetchGeminiData(); // Call the function when Enter is pressed
+                  }
+                }}
               />
               <div className="absolute left-5 top-1/2 -translate-y-1/2 text-white text-xl">
                 ✨
@@ -695,21 +702,26 @@ const CreateProblemForm = () => {
                 className="absolute right-4 top-1/2 -translate-y-1/2 bg-pink-600 hover:bg-pink-700 text-white rounded-full p-3 transition-all"
                 onClick={fetchGeminiData}
                 aria-label="Generate"
+                disabled={isLoading}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-                </svg>
+                {isLoading ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
+                  </svg>
+                )}
               </button>
             </div>
           </div>

@@ -238,3 +238,52 @@ const ProblemsTable = ({ problems }) => {
 };
 
 export default ProblemsTable;
+
+
+
+
+
+
+
+
+
+ <nav className="sticky top-0 z-50 w-full py-5">
+        <div className="w-full container mx-auto max-w-4xl px-4 bg-black/15 shadow-lg shadow-neutral-600/5 backdrop-blur-lg border border-gray-200/10 p-4 rounded-2xl">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-3 cursor-pointer">
+              <img
+                src="/dsasnippets.svg"
+                className="h-18 w-18 bg-primary/20 text-primary border-none px-2 py-2 rounded-full"
+              />
+              <span className="text-lg md:text-2xl font-bold tracking-tight text-white hidden md:block">
+                DSASNIPPETS
+              </span>
+            </Link>
+
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center space-x-8">
+              <Link
+                to="/home"
+                className="btn btn-outline btn-primary text-lg text-white"
+              >
+                Problems
+              </Link>
+            </div>
+
+            {/* GitHub Button */}
+            <a
+              href="https://github.com/karan5772/leetLab"
+              className="group relative inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-purple-600/20 to-cyan-600/20 backdrop-blur-sm border border-purple-500/30 rounded-full hover:from-purple-600/40 hover:to-cyan-600/40 transition-all duration-300 transform hover:scale-105"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github className="h-5 w-5 text-white group-hover:text-purple-300 transition-colors duration-300 mr-2" />
+              <span className="text-white font-semibold group-hover:text-purple-300 transition-colors duration-300 hidden sm:inline">
+                Star on GitHub
+              </span>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 to-cyan-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </a>
+          </div>
+        </div>
+      </nav>

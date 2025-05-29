@@ -30,7 +30,7 @@ problemRouts.delete(
   deleteProblem
 );
 
-problemRouts.post(
+problemRouts.get(
   "/get-Solved-Problems",
   authMiddleware,
   getProblemsSolvedByUser
