@@ -103,6 +103,50 @@ export const getPlayListDetails = async (req, res) => {
   }
 };
 
+export const getCustomPlayListDetails = async (req, res) => {
+  const { playlistId } = req.params; // Extract playlist ID from the request parameters
+
+  try {
+    // Fetch the playlist by ID, including all problems in the playlist
+    const playlist = await db.playlist.findUnique({
+      where: {
+        id: playlistId,
+      },
+      include: {
+        problems: {
+          include: {
+            problem: true, // Include problem details
+          },
+        },
+        user: true, // Include user details (creator of the playlist)
+      },
+    });
+
+    // If the playlist is not found, return a 404 error
+    if (!playlist) {
+      return res.status(404).json({
+        success: false,
+        message: "Playlist not found",
+      });
+    }
+
+    // Transform the playlist data to include the problems directly
+
+    // Return the playlist details
+    res.status(200).json({
+      success: true,
+      message: "Playlist fetched successfully",
+      playlist,
+    });
+  } catch (error) {
+    console.error("Error fetching playlist with problems:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch playlist details",
+    });
+  }
+};
+
 export const addProblemToPlaylist = async (req, res) => {
   const userId = req.user.id;
   const { problemIds } = req.body;

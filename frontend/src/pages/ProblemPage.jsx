@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+
 import Editor from "@monaco-editor/react";
 import {
   Play,
@@ -28,6 +30,8 @@ import Submission from "../components/Submission";
 import SubmissionsList from "../components/SubmissionList";
 
 const ProblemPage = () => {
+  const navigate = useNavigate(); // Always call hooks at the top level
+  const location = useLocation();
   const { id } = useParams();
   const { getProblemById, problem, isProblemLoading } = useProblemStore();
 
@@ -63,7 +67,6 @@ const ProblemPage = () => {
 
   useEffect(() => {
     if (problem && problem.codeSnippets) {
-      console.log("Code Snippets:", problem.codeSnippets);
       setCode(
         problem.codeSnippets["javascript"] ||
           "// Select Programming Langauge from\n// above to start Writing answer"
@@ -214,6 +217,11 @@ const ProblemPage = () => {
     }
   };
 
+  const handleBackNavigation = () => {
+    navigate(location.state?.from || "/home");
+    console.log(location);
+  };
+
   return (
     <div
       className=" max-w-full w-full bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden p-10"
@@ -221,14 +229,14 @@ const ProblemPage = () => {
     >
       <nav className="navbar bg-base-100 shadow-lg px-4 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 rounded-lg pt-4 pb-4 pl-5 pr-5">
         <div className="flex-1 gap-2 ">
-          <div className="btn btn-soft p-2 pr-5 bg-gray-900  ">
-            <Link
-              to={"/home"}
+          <div className="btn btn-soft p-2 pr-5 bg-gray-900">
+            <button
+              onClick={handleBackNavigation}
               className="flex items-center gap-2 text-primary hover:text-primary-focus"
             >
-              <ChevronLeft className="w-6 h-6 " />
-              <div className=""> Back</div>
-            </Link>
+              <ChevronLeft className="w-6 h-6" />
+              <div className="">Back</div>
+            </button>
           </div>
           <div className="mt-2">
             <h1 className="text-2xl font-extrabold text-white pt-3">
@@ -357,6 +365,7 @@ const ProblemPage = () => {
 
               <div className="p-4 border-t border-gray-700 bg-gray-800 rounded-b-lg">
                 <div className="flex justify-between items-center">
+                  <button></button>
                   <button
                     className={`btn btn-primary gap-2 ${
                       isExecuting ? "loading" : "hover:shadow-lg"
@@ -366,9 +375,6 @@ const ProblemPage = () => {
                   >
                     {!isExecuting && <Play className="w-5 h-5" />}
                     Run Code
-                  </button>
-                  <button className="btn btn-success gap-2 hover:shadow-lg">
-                    Submit Solution
                   </button>
                 </div>
               </div>

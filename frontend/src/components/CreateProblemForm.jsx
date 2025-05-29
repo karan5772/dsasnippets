@@ -24,7 +24,10 @@ const problemSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   difficulty: z.enum(["EASY", "MEDIUM", "HARD"]),
-  tags: z.array(z.string()).min(1, "At least one tag is required"),
+  tags: z
+    .array(z.string())
+    .min(1, "At least one tag is required")
+    .max(3, "Please enter three tags only"),
   constraints: z.string().min(1, "Constraints are required"),
   hints: z.string().optional(),
   editorial: z.string().optional(),
@@ -572,7 +575,7 @@ const CreateProblemForm = () => {
       const res = await axiosInstance.post("/problems/create-problem", value);
       console.log(res.data);
       toast.success(res.data.message || "Problem Created successfully⚡");
-      navigation("/");
+      navigation("/home");
     } catch (error) {
       console.log(error);
       toast.error("Error creating problem");

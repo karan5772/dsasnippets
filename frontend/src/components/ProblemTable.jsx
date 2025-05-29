@@ -17,7 +17,7 @@ const ProblemsTable = ({ problems }) => {
   const [visibleProblems, setVisibleProblems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
-  const { createPlaylist } = usePlaylistStore();
+  const { createPlaylist, getAllPlaylists } = usePlaylistStore();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
     useState(false);
@@ -113,6 +113,7 @@ const ProblemsTable = ({ problems }) => {
 
   const handleCreatePlaylist = async (data) => {
     await createPlaylist(data);
+    await getAllPlaylists(); // Refetch playlists
   };
 
   const handleAddToPlaylist = (problemId) => {
@@ -134,8 +135,21 @@ const ProblemsTable = ({ problems }) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const companyNames = [
+    "Learnyst",
+    "Teachyst",
+    "CodeLab",
+    "DevHub",
+    "AlgoExpert",
+  ];
+
+  const getRandomCompanyName = () => {
+    const randomIndex = Math.floor(Math.random() * companyNames.length);
+    return companyNames[randomIndex];
+  };
+
   return (
-    <div className="w-full max-w-6xl mx-auto mt-10">
+    <div className="w-full max-w-7xl mx-auto mt-10">
       {/* Header with Create Playlist Button */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Problems</h2>
@@ -185,14 +199,15 @@ const ProblemsTable = ({ problems }) => {
 
       {/* Table */}
       <div className="overflow-x-auto rounded-xl shadow-md">
-        <table className="table table-zebra table-lg bg-base-200 text-base-content">
+        <table className="table table-zebra table-lg bg-base-200 text-base-content w-full">
           <thead className="bg-base-300">
             <tr>
-              <th>Solved</th>
-              <th>Title</th>
-              <th>Tags</th>
-              <th>Difficulty</th>
-              <th>Actions</th>
+              <th className="text-center">Solved</th>
+              <th className="text-center">Title</th>
+              <th className="text-center">Tags</th>
+              <th className="text-center">Company</th>
+              <th className="text-center">Difficulty</th>
+              <th className="text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -231,6 +246,20 @@ const ProblemsTable = ({ problems }) => {
                     </div>
                   </td>
                   <td>
+                    <div className="flex flex-wrap gap-1">
+                      {(problem.company || [getRandomCompanyName()]).map(
+                        (tag, idx) => (
+                          <span
+                            key={idx}
+                            className="badge badge-outline badge-info text-xs font-bold"
+                          >
+                            {tag}
+                          </span>
+                        )
+                      )}
+                    </div>
+                  </td>
+                  <td>
                     <span
                       className={`badge font-semibold text-xs text-white ${
                         problem.difficulty === "EASY"
@@ -252,9 +281,6 @@ const ProblemsTable = ({ problems }) => {
                             className="btn btn-sm btn-error"
                           >
                             <TrashIcon className="w-4 h-4 text-white" />
-                          </button>
-                          <button disabled className="btn btn-sm btn-warning">
-                            <PencilIcon className="w-4 h-4 text-white" />
                           </button>
                         </div>
                       )}

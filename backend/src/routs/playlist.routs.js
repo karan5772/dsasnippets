@@ -4,6 +4,7 @@ import {
   createPlaylist,
   deletePlaylist,
   getAllListDetails,
+  getCustomPlayListDetails,
   getPlayListDetails,
   removeProblemFromPlaylist,
 } from "../controllers/playlist.controller.js";
@@ -15,6 +16,11 @@ playlistRoutes.post("/create-playlist", authMiddleware, createPlaylist);
 playlistRoutes.get("/", authMiddleware, getAllListDetails);
 
 playlistRoutes.get("/:playlistId", authMiddleware, getPlayListDetails);
+playlistRoutes.get(
+  "/custom/:playlistId",
+
+  getCustomPlayListDetails
+);
 
 playlistRoutes.post(
   "/:playlistId/add-problem",

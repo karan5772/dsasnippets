@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { usePlaylistStore } from "../store/usePlaylistStore";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   BookOpen,
   ChevronDown,
@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 
 const PlaylistProfile = () => {
+  const location = useLocation();
   const { getAllPlaylists, playlists, deletePlaylist } = usePlaylistStore();
   const [expandedPlaylist, setExpandedPlaylist] = useState(null);
 
@@ -87,8 +88,8 @@ const PlaylistProfile = () => {
                     onClick={() => togglePlaylist(playlist.id)}
                   >
                     <div className="flex items-center gap-3">
-                      <div className="avatar placeholder flex items-center justify-center">
-                        <div className="bg-purple-500 text-white rounded-lg w-12 items-center">
+                      <div className=" placeholder flex items-center justify-center">
+                        <div className="bg-purple-500 text-white rounded-lg w-12 h-12 flex items-center justify-center">
                           <BookOpen size={24} />
                         </div>
                       </div>
@@ -175,6 +176,7 @@ const PlaylistProfile = () => {
                                   <td className="p-4 text-right">
                                     <Link
                                       to={`/problem/${item.problem.id}`}
+                                      state={{ from: location.pathname }}
                                       className="btn btn-sm btn-outline btn-primary"
                                     >
                                       <ExternalLink

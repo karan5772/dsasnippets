@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useProblemStore } from "../store/useProblemStore";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Tag,
   ExternalLink,
@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 const ProblemSolvedByUser = () => {
+  const location = useLocation();
   const { getSolvedProblemByUser, solvedProblems } = useProblemStore();
 
   useEffect(() => {
@@ -107,6 +108,7 @@ const ProblemSolvedByUser = () => {
                       <td className="p-4 text-center">
                         <Link
                           to={`/problem/${problem.id}`}
+                          state={{ from: location.pathname }}
                           className="btn btn-sm btn-outline btn-primary"
                         >
                           <ExternalLink size={14} className="mr-1" />

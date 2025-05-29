@@ -45,7 +45,7 @@ const HomePage = () => {
       {/* Problems Section */}
       <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-10 pt-0 mt-10 rounded-2xl">
         {problems.length > 0 ? (
-          <div className="mt-10 w-full max-w-6xl z-10 ">
+          <div className="mt-10 w-full z-10 ">
             <ProblemTable problems={problems} />
           </div>
         ) : (
