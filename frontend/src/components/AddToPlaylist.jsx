@@ -24,22 +24,30 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-base-100 rounded-lg shadow-xl w-full max-w-md">
-        <div className="flex justify-between items-center p-4 border-b border-base-300">
-          <h3 className="text-xl font-bold">Add to Playlist</h3>
-          <button onClick={onClose} className="btn btn-ghost btn-sm btn-circle">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+      <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-xl shadow-lg w-full max-w-lg">
+        {/* Modal Header */}
+        <div className="flex justify-between items-center p-5 border-b border-gray-700">
+          <h3 className="text-xl font-bold text-white">Add to Playlist</h3>
+          <button
+            onClick={onClose}
+            className="btn btn-ghost btn-sm btn-circle text-gray-400 hover:text-white"
+          >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        {/* Modal Body */}
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          {/* Playlist Selection */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-medium">Select Playlist</span>
+              <span className="label-text text-gray-300 font-medium">
+                Select Playlist
+              </span>
             </label>
             <select
-              className="select select-bordered w-full"
+              className="select select-bordered w-full bg-black/70 text-gray-300 border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded-lg"
               value={selectedPlaylist}
               onChange={(e) => setSelectedPlaylist(e.target.value)}
               disabled={isLoading}
@@ -53,13 +61,22 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
             </select>
           </div>
 
-          <div className="flex justify-end gap-2 mt-6">
-            <button type="button" onClick={onClose} className="btn btn-ghost">
+          {/* Action Buttons */}
+          <div className="flex justify-end gap-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="btn btn-outline text-gray-400 hover:text-white border-gray-700 hover:border-gray-500"
+            >
               Cancel
             </button>
             <button
               type="submit"
-              className="btn btn-primary"
+              className={`btn btn-primary flex items-center gap-2 ${
+                !selectedPlaylist || isLoading
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
               disabled={!selectedPlaylist || isLoading}
             >
               {isLoading ? (

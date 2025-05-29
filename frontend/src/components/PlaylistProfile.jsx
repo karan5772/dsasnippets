@@ -34,13 +34,13 @@ const PlaylistProfile = () => {
   const getDifficultyBadge = (difficulty) => {
     switch (difficulty) {
       case "EASY":
-        return <span className="badge badge-success">Easy</span>;
+        return <span className="badge bg-green-500 text-white">Easy</span>;
       case "MEDIUM":
-        return <span className="badge badge-warning">Medium</span>;
+        return <span className="badge bg-yellow-500 text-black">Medium</span>;
       case "HARD":
-        return <span className="badge badge-error">Hard</span>;
+        return <span className="badge bg-red-500 text-white">Hard</span>;
       default:
-        return <span className="badge">Unknown</span>;
+        return <span className="badge bg-gray-500 text-white">Unknown</span>;
     }
   };
 
@@ -54,29 +54,32 @@ const PlaylistProfile = () => {
   };
 
   return (
-    <div className="p-4 bg-base-200 min-h-screen">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-primary">My Playlists</h2>
-          <button className="btn btn-primary btn-sm">Create Playlist</button>
+    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6 md:p-12 rounded-3xl shadow-lg">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-4xl font-extrabold text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text">
+            My Playlists
+          </h2>
         </div>
 
         {playlists.length === 0 ? (
-          <div className="card bg-base-100 shadow-xl">
+          <div className="card bg-black/50 border border-gray-700 shadow-lg rounded-lg">
             <div className="card-body items-center text-center">
-              <h3 className="text-xl font-medium">No playlists found</h3>
-              <p className="text-base-content/70">
-                Create your first playlist to organize problems!
+              <h3 className="text-2xl font-bold text-white">
+                No playlists found
+              </h3>
+              <p className="text-gray-400">
+                You Currently do not have any Playlists.
               </p>
-              <div className="card-actions justify-center mt-4">
-                <button className="btn btn-primary">Create Playlist</button>
-              </div>
             </div>
           </div>
         ) : (
           <div className="space-y-6">
             {playlists.map((playlist) => (
-              <div key={playlist.id} className="card bg-base-100 shadow-xl">
+              <div
+                key={playlist.id}
+                className="card bg-black/50 border border-gray-700 shadow-lg rounded-lg"
+              >
                 <div className="card-body p-4">
                   {/* Playlist Header */}
                   <div
@@ -85,13 +88,15 @@ const PlaylistProfile = () => {
                   >
                     <div className="flex items-center gap-3">
                       <div className="avatar placeholder flex items-center justify-center">
-                        <div className="bg-primary text-primary-content rounded-lg w-12 items-center">
+                        <div className="bg-purple-500 text-white rounded-lg w-12 items-center">
                           <BookOpen size={24} />
                         </div>
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold">{playlist.name}</h3>
-                        <div className="flex items-center gap-2 mt-1 text-sm text-base-content/70">
+                        <h3 className="text-xl font-bold text-white">
+                          {playlist.name}
+                        </h3>
+                        <div className="flex items-center gap-2 mt-1 text-sm text-gray-400">
                           <div className="flex items-center gap-1">
                             <List size={14} />
                             <span>{playlist.problems.length} problems</span>
@@ -105,60 +110,61 @@ const PlaylistProfile = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="btn btn-ghost btn-sm">
+                    <button className="btn btn-circle btn-ghost">
                       {expandedPlaylist === playlist.id ? (
-                        <ChevronUp />
+                        <ChevronUp size={20} />
                       ) : (
-                        <ChevronDown />
+                        <ChevronDown size={20} />
                       )}
                     </button>
                   </div>
 
                   {/* Description */}
-                  <p className="text-base-content/80 mt-1">
-                    {playlist.description}
-                  </p>
+                  <p className="text-gray-300 mt-2">{playlist.description}</p>
 
                   {/* Expanded Problems List */}
                   {expandedPlaylist === playlist.id && (
-                    <div className="mt-4 pt-4 border-t border-base-300">
-                      <h4 className="text-lg font-semibold mb-3">
+                    <div className="mt-4 pt-4 border-t border-gray-700">
+                      <h4 className="text-lg font-semibold text-white mb-3">
                         Problems in this playlist
                       </h4>
 
                       {playlist.problems.length === 0 ? (
-                        <div className="alert">
+                        <div className="alert bg-black/70 text-gray-400">
                           <span>No problems added to this playlist yet.</span>
                         </div>
                       ) : (
                         <div className="overflow-x-auto">
-                          <table className="table table-zebra w-full">
-                            <thead>
+                          <table className="table-auto w-full text-left text-gray-300">
+                            <thead className="bg-black/70 text-gray-400">
                               <tr>
-                                <th>Problem</th>
-                                <th>Difficulty</th>
-                                <th>Tags</th>
-                                <th className="text-right">Action</th>
+                                <th className="p-4">Problem</th>
+                                <th className="p-4">Difficulty</th>
+                                <th className="p-4">Tags</th>
+                                <th className="p-4 text-right">Action</th>
                               </tr>
                             </thead>
                             <tbody>
                               {playlist.problems.map((item) => (
-                                <tr key={item.id} className="hover">
-                                  <td className="font-medium">
+                                <tr
+                                  key={item.id}
+                                  className="hover:bg-black/70 transition-all"
+                                >
+                                  <td className="p-4 font-medium">
                                     {item.problem.title}
                                   </td>
-                                  <td>
+                                  <td className="p-4">
                                     {getDifficultyBadge(
                                       item.problem.difficulty
                                     )}
                                   </td>
-                                  <td>
-                                    <div className="flex flex-wrap gap-1">
+                                  <td className="p-4">
+                                    <div className="flex flex-wrap gap-2">
                                       {item.problem.tags &&
                                         item.problem.tags.map((tag, idx) => (
                                           <div
                                             key={idx}
-                                            className="badge badge-outline badge-sm"
+                                            className="badge bg-purple-500 text-white"
                                           >
                                             <Tag size={10} className="mr-1" />
                                             {tag}
@@ -166,12 +172,15 @@ const PlaylistProfile = () => {
                                         ))}
                                     </div>
                                   </td>
-                                  <td className="text-right">
+                                  <td className="p-4 text-right">
                                     <Link
                                       to={`/problem/${item.problem.id}`}
-                                      className="btn btn-xs btn-outline btn-primary"
+                                      className="btn btn-sm btn-outline btn-primary"
                                     >
-                                      <ExternalLink size={12} />
+                                      <ExternalLink
+                                        size={14}
+                                        className="mr-1"
+                                      />
                                       Solve
                                     </Link>
                                   </td>

@@ -62,7 +62,7 @@ const ProblemSolvedByUser = () => {
                 Start solving problems to see them listed here!
               </p>
               <div className="card-actions justify-center mt-4">
-                <Link to="/problem" className="btn btn-primary">
+                <Link to="/home" className="btn btn-primary">
                   View Problems
                 </Link>
               </div>
