@@ -27,7 +27,7 @@ const Navbar = () => {
             // User Profile and Dropdown
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle">
-                <div className="bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold ring ring-primary ring-offset-base-100 ring-offset-2">
+                <div className="bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold shadow-lg ring ring-primary ring-offset-base-100 ring-offset-2">
                   {authUser.name
                     ? authUser.name
                         .split(" ")
