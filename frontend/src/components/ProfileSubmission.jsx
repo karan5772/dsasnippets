@@ -6,11 +6,13 @@ import {
   Clock,
   HardDrive,
   Check,
-  X,
   ChevronDown,
   ChevronUp,
   Filter,
+  CircleX,
 } from "lucide-react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const ProfileSubmission = () => {
   const { submissions, getAllSubmissions } = useSubmissionStore();
@@ -23,14 +25,14 @@ const ProfileSubmission = () => {
 
   const getStatusClass = (status) => {
     switch (status) {
-      case "Accepted":
-        return "bg-success text-success-content";
-      case "Wrong Answer":
-        return "bg-error text-error-content";
+      case "ACCEPTED":
+        return "bg-green-500 text-white";
+      case "REJECTED":
+        return "bg-red-500 text-white";
       case "Time Limit Exceeded":
-        return "bg-warning text-warning-content";
+        return "bg-yellow-500 text-black";
       default:
-        return "bg-info text-info-content";
+        return "bg-blue-500 text-white";
     }
   };
 
@@ -58,23 +60,42 @@ const ProfileSubmission = () => {
     return submission.status === filter;
   });
 
+  const formatLanguage = (language) => {
+    if (!language) return "Unknown";
+    return language.toLowerCase();
+  };
+
+  const parseJSON = (data) => {
+    try {
+      return JSON.parse(data);
+    } catch {
+      return data;
+    }
+  };
+
   return (
-    <div className="n bg-base-200 p-4 md:p-8">
+    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6 md:p-12 rounded-3xl shadow-lg">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-primary mb-4 md:mb-0">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+          <h1 className="text-4xl font-extrabold text-transparent bg-gradient-to-r from-purple-300 via-pink-400 to-cyan-400 bg-clip-text">
             My Submissions
           </h1>
 
-          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-            <div className="dropdown dropdown-end">
-              <div tabIndex={0} role="button" className="btn btn-outline gap-2">
-                <Filter size={16} />
+          <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+            {/* Filter Dropdown */}
+            <div className="dropdown dropdown-end ">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-outline gap-2 bg-black/50 border border-gray-700 hover:bg-purple-500 hover:border-purple-500 text-white m-7 text-2xl p-8"
+              >
+                <Filter size={25} />
                 {filter === "all" ? "All Submissions" : filter}
               </div>
               <ul
                 tabIndex={0}
-                className="dropdown-content z-10 menu p-2 shadow bg-base-100 rounded-box w-52"
+                className="dropdown-content z-10 menu p-2 shadow bg-black/50 border border-gray-700 rounded-lg"
               >
                 <li>
                   <button onClick={() => setFilter("all")}>
@@ -82,13 +103,13 @@ const ProfileSubmission = () => {
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => setFilter("Accepted")}>
+                  <button onClick={() => setFilter("ACCEPTED")}>
                     Accepted
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => setFilter("Wrong Answer")}>
-                    Wrong Answer
+                  <button onClick={() => setFilter("REJECTED")}>
+                    Rejected
                   </button>
                 </li>
                 <li>
@@ -99,26 +120,30 @@ const ProfileSubmission = () => {
               </ul>
             </div>
 
-            <div className="stats shadow bg-base-100">
-              <div className="stat p-2">
-                <div className="stat-title">Total</div>
-                <div className="stat-value text-lg">{submissions.length}</div>
+            {/* Stats */}
+            <div className="stats shadow bg-black/50 border border-gray-700 rounded-lg">
+              <div className="stat p-4">
+                <div className="stat-title text-gray-400">Total</div>
+                <div className="stat-value text-white">
+                  {submissions.length}
+                </div>
               </div>
-              <div className="stat p-2">
-                <div className="stat-title">Accepted</div>
-                <div className="stat-value text-lg text-success">
-                  {submissions.filter((s) => s.status === "Accepted").length}
+              <div className="stat p-4">
+                <div className="stat-title text-gray-400">ACCEPTED</div>
+                <div className="stat-value text-green-400">
+                  {submissions.filter((s) => s.status === "ACCEPTED").length}
                 </div>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Submissions */}
         {filteredSubmissions.length === 0 ? (
-          <div className="card bg-base-100 shadow-xl">
+          <div className="card bg-black/50 border border-gray-700 shadow-lg rounded-lg">
             <div className="card-body items-center text-center">
-              <h2 className="card-title">No submissions found</h2>
-              <p>
+              <h2 className="card-title text-white">No submissions found</h2>
+              <p className="text-gray-400">
                 You haven't submitted any solutions yet, or none match your
                 current filter.
               </p>
@@ -129,35 +154,33 @@ const ProfileSubmission = () => {
             {filteredSubmissions.map((submission) => (
               <div
                 key={submission.id}
-                className="card bg-base-100 shadow-xl overflow-hidden transition-all duration-300"
+                className="card bg-black/50 border border-gray-700 shadow-lg rounded-lg overflow-hidden transition-all duration-300"
               >
-                <div
-                  className="card-body p-0"
-                  role="button"
-                  onClick={() => toggleExpand(submission.id)}
-                >
+                <div className="card-body p-0">
                   {/* Submission Header */}
-                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 cursor-pointer hover:bg-base-200">
-                    <div className="flex flex-col md:flex-row md:items-center gap-3 w-full">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-4">
+                    <div className="flex flex-col md:flex-row md:items-center gap-4 w-full">
                       <div
                         className={`badge badge-lg ${getStatusClass(
                           submission.status
                         )}`}
                       >
-                        {submission.status === "Accepted" ? (
+                        {submission.status === "ACCEPTED" ? (
                           <Check size={14} className="mr-1" />
-                        ) : null}
+                        ) : (
+                          <CircleX size={14} className="mr-1" />
+                        )}
                         {submission.status}
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 text-gray-300">
                         <Code size={16} />
                         <span className="font-medium">
                           {submission.language}
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 text-gray-300">
                         <Clock size={16} />
                         <span>
                           Submitted {formatDate(submission.createdAt)}
@@ -167,92 +190,51 @@ const ProfileSubmission = () => {
 
                     <div className="flex items-center gap-2 mt-3 md:mt-0">
                       {expandedSubmission === submission.id ? (
-                        <ChevronUp size={20} />
+                        <button
+                          onClick={() => toggleExpand(submission.id)}
+                          className="btn btn-circle btn-ghost hover:bg-gray-700"
+                        >
+                          <ChevronUp size={20} />
+                        </button>
                       ) : (
-                        <ChevronDown size={20} />
+                        <button
+                          onClick={() => toggleExpand(submission.id)}
+                          className="btn btn-circle btn-ghost hover:bg-gray-700"
+                        >
+                          <ChevronDown size={20} />
+                        </button>
                       )}
                     </div>
                   </div>
 
                   {/* Expanded Content */}
                   {expandedSubmission === submission.id && (
-                    <div className="border-t border-base-300">
+                    <div className="border-t border-gray-700">
                       {/* Code Section */}
                       <div className="p-4">
-                        <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
+                        <h3 className="font-bold text-lg mb-2 flex items-center gap-2 text-white">
                           <Code size={18} />
                           Solution Code
                         </h3>
-                        <div className="mockup-code bg-neutral text-neutral-content overflow-x-auto">
-                          <pre className="p-4">
-                            <code>{submission.sourceCode}</code>
-                          </pre>
+                        <div className="mockup-code bg-black/70 text-gray-300 overflow-x-auto rounded-lg">
+                          <SyntaxHighlighter
+                            language={
+                              formatLanguage(submission.language) ||
+                              "javascript"
+                            }
+                            style={dracula}
+                            customStyle={{
+                              background: "transparent",
+                              padding: "1rem",
+                              borderRadius: "0.5rem",
+                            }}
+                          >
+                            {submission.sourceCode}
+                          </SyntaxHighlighter>
                         </div>
                       </div>
 
                       {/* Input/Output Section */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border-t border-base-300">
-                        <div>
-                          <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
-                            <Terminal size={18} />
-                            Input
-                          </h3>
-                          <div className="mockup-code bg-neutral text-neutral-content">
-                            <pre className="p-4">
-                              <code>
-                                {submission.stdin || "No input provided"}
-                              </code>
-                            </pre>
-                          </div>
-                        </div>
-
-                        <div>
-                          <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
-                            <Terminal size={18} />
-                            Output
-                          </h3>
-                          <div className="mockup-code bg-neutral text-neutral-content">
-                            <pre className="p-4">
-                              <code>
-                                {Array.isArray(JSON.parse(submission.stdout))
-                                  ? JSON.parse(submission.stdout).join("")
-                                  : submission.stdout || "No output"}
-                              </code>
-                            </pre>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Performance Stats */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 border-t border-base-300">
-                        <div className="stats shadow">
-                          <div className="stat">
-                            <div className="stat-figure text-primary">
-                              <Clock size={24} />
-                            </div>
-                            <div className="stat-title">Execution Time</div>
-                            <div className="stat-value text-lg">
-                              {Array.isArray(JSON.parse(submission.time))
-                                ? JSON.parse(submission.time)[0]
-                                : submission.time || "N/A"}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="stats shadow">
-                          <div className="stat">
-                            <div className="stat-figure text-primary">
-                              <HardDrive size={24} />
-                            </div>
-                            <div className="stat-title">Memory Used</div>
-                            <div className="stat-value text-lg">
-                              {Array.isArray(JSON.parse(submission.memory))
-                                ? JSON.parse(submission.memory)[0]
-                                : submission.memory || "N/A"}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   )}
                 </div>

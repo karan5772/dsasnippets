@@ -116,14 +116,6 @@ const Profile = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="card-actions justify-end mt-8">
-              <button className="btn btn-outline btn-primary hover:bg-purple-500 hover:border-purple-500">
-                Edit Profile
-              </button>
-              <button className="btn btn-primary bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600">
-                Change Password
-              </button>
-            </div>
           </div>
         </div>
       </div>
