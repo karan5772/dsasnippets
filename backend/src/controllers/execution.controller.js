@@ -41,7 +41,6 @@ export const execute = async (req, res) => {
     //Pool judge0 for all submitted Test Cases
     const results = await poolBatchResults(tokens);
 
-    //console.log("Result : \n", results);
     //Let's analyze the output taht we get from the judge0
 
     let allPassed = true;
@@ -51,12 +50,6 @@ export const execute = async (req, res) => {
       const expected_output = expected_outputs[i].trim();
 
       const passed = stdout === expected_output;
-
-      // console.log(`Testcase #${i + 1}`);
-      // console.log(`Input for testcase #${i + 1}: ${stdin[i]}`);
-      // console.log(`Expected Output for testcase #${i + 1}: ${expected_output}`);
-      // console.log(`Actual output for testcase #${i + 1}: ${stdout}`);
-      // console.log(`Matched testcase #${i + 1}: ${passed}`);
 
       if (!passed) {
         allPassed = false;
@@ -99,7 +92,6 @@ export const execute = async (req, res) => {
           : null,
       },
     });
-    // console.log("Ye vo Submission vala hai BD vala", submission);
 
     // Store the proble and user in Solved Problem DB
     // NOTE:- Do it only if the problem is solved i.e., all test cases are passed

@@ -1,9 +1,10 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { Loader } from "lucide-react";
 
 const AdminRoute = () => {
   const { authUser, isCheckingAuth } = useAuthStore();
+  const location = useLocation(); // Get the current location
 
   if (isCheckingAuth) {
     return (
@@ -14,7 +15,8 @@ const AdminRoute = () => {
   }
 
   if (!authUser || authUser.role !== "ADMIN") {
-    return <Navigate to="/" />;
+    // Redirect to login or home, preserving the current location
+    return <Navigate to="/" replace state={{ from: location }} />;
   }
 
   return <Outlet />;

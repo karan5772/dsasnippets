@@ -54,6 +54,12 @@ const App = () => {
             element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
           />
         </Route>
+        <Route path="/profile">
+          <Route
+            index
+            element={authUser ? <Profile /> : <Navigate to={"/login"} />}
+          />
+        </Route>
         <Route
           path="/login"
           element={!authUser ? <LoginPage /> : <Navigate to={"/home"} />}
@@ -72,10 +78,6 @@ const App = () => {
             element={authUser ? <AddProblem /> : <Navigate to={"/home"} />}
           />
         </Route>
-        <Route
-          path="/profile"
-          element={authUser ? <Profile /> : <Navigate to="/login" />}
-        />
       </Routes>
     </div>
   );

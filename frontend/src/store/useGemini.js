@@ -58,7 +58,7 @@ export async function callGemini(text) {
     system_instruction: {
       parts: [
         {
-          text: "You are a Problem Generator for LeetCode like code execution platform for JAVA, PYTHON and JAVASCRIPT langauge specific. So generate the problem and give a JSON object. Simply send the object NO PREFIX NO SUFFIX ",
+          text: "You are a Problem Generator for LeetCode like code execution platform for JAVA, PYTHON and JAVASCRIPT langauge specific. So generate the problem and give a JSON object (Here, 'constraints', 'hints' and 'editorial' must be in string only). Simply send the object NO PREFIX NO SUFFIX. AND IT MUST FOLLOW THIS GIVEN STRUCTURE ONLY. The problem must have very easy and simple testcases and inputs and outputs, so that it becomes Judge) compatable. ",
         },
       ],
     },

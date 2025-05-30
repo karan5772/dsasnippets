@@ -111,10 +111,11 @@ const ProblemPage = () => {
 
   if (isProblemLoading || !problem) {
     return (
-      <div className="flex items-center justify-center h-screen bg-base-200">
-        <div className="card bg-base-100 p-8 shadow-xl">
+      <div className="flex items-center justify-center min-h-screen bg-slate-900 w-full h-36">
+        {/* Full-screen loading spinner */}
+        <div className="flex flex-col items-center w-full">
           <span className="loading loading-spinner loading-lg text-primary"></span>
-          <p className="mt-4 text-base-content/70">Loading problem...</p>
+          <p className="mt-4 text-gray-300 text-lg">Loading problem...</p>
         </div>
       </div>
     );
@@ -219,7 +220,6 @@ const ProblemPage = () => {
 
   const handleBackNavigation = () => {
     navigate(location.state?.from || "/home");
-    console.log(location);
   };
 
   return (

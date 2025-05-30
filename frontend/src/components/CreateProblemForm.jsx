@@ -610,7 +610,6 @@ const CreateProblemForm = () => {
         const parsedData = JSON.parse(jsonString);
         //const parsedData = JSON.parse(generatedData); // Assuming the response is JSON-formatted
         reset(parsedData); // Populate the form with the response data
-        console.log(parsedData);
 
         toast.success("Problem generated successfully!");
       } else {
@@ -682,6 +681,10 @@ const CreateProblemForm = () => {
               Got an idea but not sure how to frame it as a coding problem? Just
               describe what you want — our AI will help you craft a clear and
               executable programming challenge in seconds.
+            </p>
+            <p className="text-center mb-10 px-4">
+              ** Right now we only support simple problems. If you try to go for
+              a hard problem, your problem might not be created. **
             </p>
 
             <div className="relative w-full max-w-2xl">

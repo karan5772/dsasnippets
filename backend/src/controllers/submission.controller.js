@@ -15,7 +15,7 @@ export const getAllSubmissions = async (req, res) => {
       submissions,
     });
   } catch (error) {
-    console.log("Error Featching all the Submissions", error);
+    console.error("Error Featching all the Submissions", error);
     return res.status(500).json({
       success: true,
       message: "Internel Servar Error",
@@ -40,7 +40,7 @@ export const getSubmissionsForProblem = async (req, res) => {
       submissions,
     });
   } catch (error) {
-    console.log("Error Featching all the Submissions", error);
+    console.error("Error Featching all the Submissions", error);
     return res.status(500).json({
       success: true,
       message: "Internel Servar Error",
@@ -63,7 +63,7 @@ export const getAllSubmissionsForProblem = async (req, res) => {
       count: submission,
     });
   } catch (error) {
-    console.log("Error Featching all the Submissions", error);
+    console.error("Error Featching all the Submissions", error);
     return res.status(500).json({
       success: true,
       message: "Internel Servar Error",
