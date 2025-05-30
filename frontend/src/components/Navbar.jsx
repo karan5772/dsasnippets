@@ -1,27 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { User, Code, LogOut } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 
 const Navbar = () => {
   const { authUser } = useAuthStore();
+  const [isNavbarVisible, setIsNavbarVisible] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsNavbarVisible(false);
+    const timer = setTimeout(() => {
+      setIsNavbarVisible(true);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [location]);
 
   return (
-    <nav className="sticky top-0 z-50 w-full py-5">
+    <nav
+      className={`sticky top-0 z-50 w-full py-5 transition-all duration-1000 ease-in-out ${
+        isNavbarVisible
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 -translate-y-10"
+      }`}
+    >
       <div className="flex w-full justify-between mx-auto max-w-4xl bg-black/15 shadow-lg shadow-neutral-600/5 backdrop-blur-lg border border-gray-200/10 p-4 rounded-2xl">
-        {/* Logo Section */}
         <Link to="/" className="flex items-center gap-3 cursor-pointer">
           <img
             src="/dsasnippets.svg"
             className="h-18 w-18 bg-primary/20 text-primary border-none px-2 py-2 rounded-full"
           />
-          <span className="text-lg md:text-2xl font-bold tracking-tight text-white hidden md:block">
-            DSASNIPPETS
-          </span>
         </Link>
 
-        {/* Conditional Rendering for Authenticated and Non-Authenticated Users */}
         <div className="flex items-center gap-8">
           {authUser ? (
             // User Profile and Dropdown

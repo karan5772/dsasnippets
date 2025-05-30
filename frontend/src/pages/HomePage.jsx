@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-
 import { useProblemStore } from "../store/useProblemStore";
 import { Loader } from "lucide-react";
 import ProblemTable from "../components/ProblemTable";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const { getAllProblems, problems, isProblemsLoading } = useProblemStore();
@@ -18,8 +18,9 @@ const HomePage = () => {
       </div>
     );
   }
+
   return (
-    <div className="flex flex-col items-center mt-14 px-4  text-white">
+    <div className="flex flex-col items-center mt-14 px-4 text-white">
       {/* Background Glow */}
       <div className="absolute top-16 left-0 w-1/3 h-1/3 bg-primary opacity-40 blur-3xl rounded-md"></div>
       <div className="absolute bottom-16 right-0 w-1/3 h-1/3 bg-secondary opacity-40 blur-3xl rounded-md"></div>
@@ -41,6 +42,18 @@ const HomePage = () => {
         Create questions manually or with AI, sell premium playlists, and
         execute code in real-time.
       </p>
+
+      {/* Buy Playlist Button */}
+      <div className="mt-8">
+        <Link
+          to="/playlist/30fbe0b6-b42d-4619-a96b-3a516dcc9ade"
+          className="flex items-center gap-3 cursor-pointer hover:text-white"
+        >
+          <span className="btn btn-primary text-3xl  p-8 pl-13 pr-13 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-purple-900 via-pink-600 to-cyan-600 hover:from-red-700 hover:to-cyan-500">
+            Buy Playlist <br /> <span>(Demo Feture)</span>
+          </span>
+        </Link>
+      </div>
 
       {/* Problems Section */}
       <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-10 pt-0 mt-10 rounded-2xl">

@@ -71,6 +71,7 @@ const CustomProblemTableForPlaylist = ({ problems }) => {
                 <td className="p-4 text-right">
                   <Link
                     to={`/problem/${problem.id}`}
+                    state={{ from: location.pathname }}
                     className="btn btn-sm btn-outline flex gap-2 items-center text-gray-300 hover:text-white hover:bg-gray-700 border-gray-600"
                   >
                     <span className="hidden sm:inline">Solve</span>

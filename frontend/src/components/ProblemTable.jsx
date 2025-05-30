@@ -38,6 +38,7 @@ const ProblemsTable = ({ problems }) => {
   const difficulties = ["EASY", "MEDIUM", "HARD"];
 
   // Filter problems based on search, difficulty, and tags
+  // Filter problems based on search, difficulty, and tags, and sort by creation time
   const filteredProblems = useMemo(() => {
     return (problems || [])
       .filter((problem) =>
@@ -48,7 +49,8 @@ const ProblemsTable = ({ problems }) => {
       )
       .filter((problem) =>
         selectedTag === "ALL" ? true : problem.tags?.includes(selectedTag)
-      );
+      )
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort by newest first
   }, [problems, search, difficulty, selectedTag]);
 
   // Load more problems for infinite scrolling
@@ -244,7 +246,11 @@ const ProblemsTable = ({ problems }) => {
                         {(problem.tags || []).map((tag, idx) => (
                           <span
                             key={idx}
-                            className="badge badge-outline badge-warning text-xs font-bold"
+                            className={`badge badge-outline text-xs font-bold ${
+                              tag.toLowerCase() === "demo"
+                                ? "badge-success" // Green color for "Demo" tags
+                                : "badge-warning"
+                            }`}
                           >
                             {tag}
                           </span>
