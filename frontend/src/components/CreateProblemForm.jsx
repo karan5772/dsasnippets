@@ -617,7 +617,7 @@ const CreateProblemForm = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Error fetching data from Gemini.");
+      toast.error("Error fetching data from Gemini. Please try again.");
     } finally {
       setIsLoading(false);
     }

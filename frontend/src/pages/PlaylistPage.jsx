@@ -9,19 +9,24 @@ const PlaylistPage = () => {
   const [isPaymentCompleted, setIsPaymentCompleted] = useState(false); // State to track payment completion
 
   useEffect(() => {
-    getCustomPlaylistDetails(id); // Fetch playlist data
+    getCustomPlaylistDetails(id);
+    const paymentStatus = localStorage.getItem(`payment_${id}`);
+    if (paymentStatus === "completed") {
+      setIsPaymentCompleted(true);
+    }
   }, [id, getCustomPlaylistDetails]);
 
   const handlePayment = () => {
     const options = {
-      key: "rzp_test_c18NLQMMGkbEHB", // Razorpay test key
+      key: "rzp_test_c18NLQMMGkbEHB",
       amount: 50000,
       currency: "INR",
-      name: "Demo Playlist Payment",
-      description: "Unlock the playlist to access problems",
+      name: "DSA Snippets",
+      description: "Unlock the playlist to access premium problems",
+      image: "/dsasnippets.svg",
       handler: function (response) {
-        // console.log("Payment successful:", response);
         setIsPaymentCompleted(true);
+        localStorage.setItem(`payment_${id}`, "completed");
       },
       prefill: {
         name: "Karan Choudhary",
@@ -29,11 +34,16 @@ const PlaylistPage = () => {
         contact: "6350320901",
       },
       theme: {
-        color: "#6C63FF",
-        backdrop_color: "#1a1a1a",
+        color: "#4a40f5",
+        backdrop_color: "rgba(0, 0, 0, 0.6)",
       },
       modal: {
         backdropclose: true,
+        escape: true,
+        confirm_close: true,
+      },
+      notes: {
+        playlistId: id,
       },
     };
 
@@ -43,10 +53,10 @@ const PlaylistPage = () => {
 
   if (isLoading || !playlist) {
     return (
-      <div className="flex items-center justify-center w-full  p-10 h-96">
+      <div className="flex items-center justify-center w-full blur-0 p-10 h-96">
         {/* Full-screen loading spinner */}
-        <div className="flex flex-col items-center w-full">
-          <span className="loading loading-dots loading-xl"></span>
+        <div className="flex flex-col items-center w-full ">
+          <span className="loading loading-dots loading-lg"></span>
           <p className="mt-4 text-4xl">Loading Playlist...</p>
         </div>
       </div>
@@ -66,15 +76,33 @@ const PlaylistPage = () => {
       <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6 md:p-12 rounded-3xl shadow-lg">
         <div className="max-w-6xl mx-auto">
           {/* Playlist Header */}
-          <div className="mb-8">
-            <h1 className="text-4xl font-extrabold text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text">
-              {playlist.name}
-            </h1>
-            <p className="text-gray-300 mt-4">{playlist.description}</p>
-            <p className="text-gray-400 mt-2">
-              Created by:{" "}
-              <span className="text-white font-bold">{playlist.user.name}</span>
-            </p>
+          <div className="flex items-center gap-6 mb-8">
+            {/* Creator's Profile Photo */}
+            <label tabIndex={0} className="btn-circle">
+              <div className="bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-4xl flex items-center justify-center font-bold  ring ring-primary ring-offset-base-100 ring-offset-2 w-25 h-25 rounded-full shadow-lg">
+                {playlist.user.name
+                  ? playlist.user.name
+                      .split(" ")
+                      .map((word) => word.charAt(0))
+                      .join("")
+                      .toUpperCase()
+                  : "U"}
+              </div>
+            </label>
+
+            {/* Playlist Details */}
+            <div>
+              <h1 className="text-4xl font-extrabold text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text">
+                {playlist.name}
+              </h1>
+              <p className="text-gray-300 mt-4">{playlist.description}</p>
+              <p className="text-gray-400 mt-2">
+                Created by:{" "}
+                <span className="text-white font-bold">
+                  {playlist.user.name}
+                </span>
+              </p>
+            </div>
           </div>
 
           {/* Payment Button */}
@@ -107,7 +135,8 @@ const PlaylistPage = () => {
           {isPaymentCompleted && (
             <div className="mt-6 text-center">
               <p className="text-green-400 font-semibold text-lg">
-                Payment successful! You now have access to the playlist.
+                Congrats 🎉 <br />
+                You now have access to the playlist.
               </p>
             </div>
           )}

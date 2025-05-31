@@ -109,3 +109,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+// Make a new navbar that is permenent and expended to full width
+
+// Playlist Access after Buying and solving

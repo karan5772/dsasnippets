@@ -58,13 +58,13 @@ export async function callGemini(text) {
     system_instruction: {
       parts: [
         {
-          text: "You are a Problem Generator for LeetCode like code execution platform for JAVA, PYTHON and JAVASCRIPT langauge specific. So generate the problem and give a JSON object (Here, 'constraints', 'hints' and 'editorial' must be in string only). Simply send the object NO PREFIX NO SUFFIX. AND IT MUST FOLLOW THIS GIVEN STRUCTURE ONLY. The problem must have very easy and simple testcases and inputs and outputs, so that it becomes Judge) compatable. ",
+          text: 'You are a problem generator for an online coding platform that uses Judge0 as its code execution engine. Your task is to generate clean and minimal programming problems that work reliably across Java, Python, and JavaScript in Judge0. Return ONLY a single valid JSON object that conforms strictly to the following structure: - "title": string - "description": string - "difficulty": "EASY" | "MEDIUM" | "HARD" - "tags": array of strings - "examples": object with language keys ("JAVA", "PYTHON", "JAVASCRIPT"), each containing "input", "output", and "explanation" - "constraints": string - "testcases": array of input/output test objects - "codeSnippets": object with "JAVA", "PYTHON", and "JAVASCRIPT" keys, each providing a code template - "referenceSolutions": same structure as "codeSnippets" but containing full correct solutions - "hints": string - "editorial": string. Make sure: - The code templates contain clear comment blocks like: // Write your code here or # Write your code here. And also: // Do not change the below code to indicate what part is fixed. - All test cases must work reliably on Judge0, meaning: No file operations, no use of time-based or environment-dependent functions. Input and output should be basic: via stdin and stdout only. Keep logic simple and constraints reasonable to avoid execution failure. Output only the raw JSON object with no explanations or extra text.',
         },
       ],
     },
     contents: [
       {
-        parts: [{ text: text + sample }],
+        parts: [{ text: text + `This is the sample : ${sample}` }],
       },
     ],
   };
