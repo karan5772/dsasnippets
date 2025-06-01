@@ -1,5 +1,6 @@
 import { Code, Terminal, FileCode, Braces } from "lucide-react";
 import { useEffect, useState } from "react";
+import MyImage from "../assets/dsasnippets.svg";
 
 const CodeBackground = ({ title, subtitle }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -65,7 +66,7 @@ function reverseList(head) {
   }, [codeSnippets.length]);
 
   return (
-    <div className="hidden lg:flex flex-col items-center justify-center bg-slate-900 text-white p-12 relative overflow-hidden">
+    <div className="hidden lg:flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 text-white p-10 rounded-lg shadow-lg relative overflow-hidden">
       {/* Animated code symbols in background */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-[10%] left-[15%] animate-pulse">
@@ -98,7 +99,7 @@ function reverseList(head) {
               <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
               <div className="w-3 h-3 rounded-full bg-green-500"></div>
             </div>
-            <div className="text-xs font-mono opacity-70">problem.js</div>
+            <div className="text-xs font-mono opacity-70">dsasnippets.js</div>
           </div>
 
           {/* Code content */}
@@ -115,7 +116,10 @@ function reverseList(head) {
         {/* Logo */}
         <div className="flex items-center justify-center mb-6">
           <div className="w-12 h-12 rounded-xl bg-primary/10  flex items-center justify-center">
-            <Code className="w-6 h-6 text-primary" />
+            <img
+              src={MyImage}
+              className="bg-primary/20 text-primary border-none px-2 py-2 rounded-xl"
+            />
           </div>
         </div>
 

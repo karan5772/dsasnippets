@@ -319,14 +319,6 @@ const ProblemsTable = ({ problems }) => {
       {hasMore && <div ref={observerRef} className="h-10"></div>}
 
       {/* Scroll-to-Top Button */}
-      {showScrollToTop && (
-        <button
-          className="fixed bottom-5 right-5 btn btn-primary btn-circle"
-          onClick={scrollToTop}
-        >
-          <ArrowUp className="w-6 h-6" />
-        </button>
-      )}
 
       <CreatePlaylistModal
         isOpen={isCreateModalOpen}

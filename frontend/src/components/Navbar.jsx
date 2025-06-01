@@ -3,6 +3,7 @@ import { User, Code, LogOut } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Link, useLocation } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
+import MyImage from "../assets/dsasnippets.svg";
 
 const Navbar = () => {
   const { authUser } = useAuthStore();
@@ -18,98 +19,110 @@ const Navbar = () => {
   }, [location]);
 
   return (
-    <nav
-      className={`sticky top-0 z-50 w-full py-5 transition-all duration-1000 ease-in-out ${
-        isNavbarVisible
-          ? "opacity-100 translate-y-0"
-          : "opacity-0 -translate-y-10"
-      }`}
-    >
-      <div className="flex w-full justify-between mx-auto max-w-4xl bg-black/15 shadow-lg shadow-neutral-600/5 backdrop-blur-lg border border-gray-200/10 p-4 rounded-2xl">
-        <Link to="/" className="flex items-center gap-3 cursor-pointer">
-          <img
-            src="/dsasnippets.svg"
-            className="h-18 w-18 bg-primary/20 text-primary border-none px-2 py-2 rounded-full"
-          />
-        </Link>
+    <div>
+      <nav className="sticky top-0 w-full z-50 h-20 mt-10 py-3.5 bg-black/30 backdrop-blur-md shadow-lg border border-gray-200/10 rounded-2xl min-w-[800px]">
+        <div>
+          <div className="flex w-full h-full justify-between items-center mx-auto px-6  ">
+            <Link to="/" className="flex items-center gap-3 cursor-pointer">
+              <img
+                src={MyImage}
+                className="h-12 w-20 bg-primary/20 text-primary rounded-2xl border-none px-2 py-2 "
+              />
+            </Link>
+            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="flex items-center gap-6">
+                <Link
+                  to="/home"
+                  className="px-3 py-2 text-white font-medium text-base rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 shadow-lg hover:from-purple-600 hover:to-cyan-600 hover:scale-105 transition-all duration-300"
+                >
+                  See All Problems
+                </Link>
+                <Link
+                  to="/playlist/30fbe0b6-b42d-4619-a96b-3a516dcc9ade"
+                  className="px-3 py-2 text-white font-medium text-base rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 shadow-lg hover:from-purple-600 hover:to-cyan-600 hover:scale-105 transition-all duration-300"
+                >
+                  Buy Playlist
+                </Link>
+              </div>
+            </div>
 
-        <div className="flex items-center gap-8">
-          {authUser ? (
-            // User Profile and Dropdown
-            <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-ghost btn-circle">
-                <div className="bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold shadow-lg ring ring-primary ring-offset-base-100 ring-offset-2">
-                  {authUser.name
-                    ? authUser.name
-                        .split(" ")
-                        .map((word) => word.charAt(0))
-                        .join("")
-                        .toUpperCase()
-                    : "U"}
-                </div>
-              </label>
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 space-y-3"
-              >
-                {/* Common Options */}
-                <li>
-                  <p className="text-base font-semibold">{authUser.name}</p>
-                  <hr className="border-gray-200/10" />
-                </li>
-                <li>
-                  <Link
-                    to="/profile"
-                    className="hover:bg-primary hover:text-white text-base font-semibold"
-                  >
-                    <User className="w-4 h-4 mr-2" />
-                    My Profile
-                  </Link>
-                </li>
-                {authUser.role === "ADMIN" && (
-                  <li>
-                    <Link
-                      to="/add-problem"
-                      className="hover:bg-primary hover:text-white text-base font-semibold"
+            {/* User Actions */}
+            <div>
+              <div className="flex items-center gap-6">
+                {authUser ? (
+                  <div className="dropdown dropdown-end">
+                    <label tabIndex={0} className=" btn-circle">
+                      <div className="bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold shadow-lg ring ring-primary ring-offset-base-100 ring-offset-2">
+                        {authUser.name
+                          ? authUser.name
+                              .split(" ")
+                              .map((word) => word.charAt(0))
+                              .join("")
+                              .toUpperCase()
+                          : "U"}
+                      </div>
+                    </label>
+                    <ul
+                      tabIndex={0}
+                      className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 space-y-3"
                     >
-                      <Code className="w-4 h-4 mr-1" />
-                      Add Problem
+                      <li>
+                        <p className="text-base font-semibold">
+                          {authUser.name}
+                        </p>
+                        <hr className="border-gray-200/10" />
+                      </li>
+                      <li>
+                        <Link
+                          to="/profile"
+                          className="hover:bg-primary hover:text-white text-base font-semibold"
+                        >
+                          <User className="w-4 h-4 mr-2" />
+                          My Profile
+                        </Link>
+                      </li>
+                      {authUser.role === "ADMIN" && (
+                        <li>
+                          <Link
+                            to="/add-problem"
+                            className="hover:bg-primary hover:text-white text-base font-semibold"
+                          >
+                            <Code className="w-4 h-4 mr-1" />
+                            Add Problem
+                          </Link>
+                        </li>
+                      )}
+                      <li>
+                        <LogoutButton className="hover:bg-primary hover:text-white">
+                          <LogOut className="w-4 h-4 mr-2" />
+                          Logout
+                        </LogoutButton>
+                      </li>
+                    </ul>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-4">
+                    <Link
+                      to="/login"
+                      className="btn btn-outline btn-primary text-sm md:text-base"
+                    >
+                      Login
                     </Link>
-                  </li>
+                    <Link
+                      to="/signup"
+                      className="btn btn-primary text-sm md:text-base"
+                    >
+                      Sign Up
+                    </Link>
+                  </div>
                 )}
-                <li>
-                  <LogoutButton className="hover:bg-primary hover:text-white">
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Logout
-                  </LogoutButton>
-                </li>
-              </ul>
+              </div>
             </div>
-          ) : (
-            // Login and Sign Up Buttons
-            <div className="flex items-center gap-4">
-              <Link
-                to="/login"
-                className="btn btn-outline btn-primary text-sm md:text-base"
-              >
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="btn btn-primary text-sm md:text-base"
-              >
-                Sign Up
-              </Link>
-            </div>
-          )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 };
 
 export default Navbar;
-
-// Make a new navbar that is permenent and expended to full width
-
-// Playlist Access after Buying and solving

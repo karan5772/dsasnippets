@@ -6,6 +6,7 @@ import { Code, Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
 import { z } from "zod";
 import AuthImagePattern from "../components/AuthImagePattern";
 import { useAuthStore } from "../store/useAuthStore";
+import MyImage from "../assets/dsasnippets.svg";
 
 const loginSchema = z.object({
   email: z.string().email("Enter a valid email"),
@@ -41,7 +42,10 @@ const LoginPage = () => {
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                <Code className="w-6 h-6 text-primary" />
+                <img
+                  src={MyImage}
+                  className="bg-primary/20 text-primary border-none px-2 py-2 rounded-xl"
+                />
               </div>
               <h1 className="text-2xl font-bold mt-2">Welcome Back </h1>
               <p className=" text-gray-200">Login to your account</p>
@@ -127,7 +131,7 @@ const LoginPage = () => {
                   Loading...
                 </>
               ) : (
-                "Sign In"
+                "Log In"
               )}
             </button>
           </form>

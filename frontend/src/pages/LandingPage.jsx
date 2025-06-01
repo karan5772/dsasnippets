@@ -190,17 +190,60 @@ const LandingPage = () => {
         </div>
 
         {/* Floating Code Snippets */}
-        <div className="hidden lg:block absolute top-20 left-10 opacity-20 animate-bounce">
-          <div className="bg-black/40 backdrop-blur-sm border border-purple-500/30 rounded-lg p-4 text-green-400 font-mono text-sm">
-            {"function twoSum(nums, target) {"}
+        <div className="hidden lg:block absolute top-32 left-8 opacity-30 animate-float z-0">
+          <div className="bg-black/60 backdrop-blur-sm border border-purple-500/40 rounded-lg p-6 text-green-400 font-mono text-xs max-w-xs">
+            <div className="text-purple-400 mb-2">// Two Sum Problem</div>
+            <div className="text-cyan-400">
+              function twoSum(nums, target) {"{"}
+            </div>
+            <div className="ml-4 text-gray-300">const map = new Map();</div>
+            <div className="ml-4 text-gray-300">
+              for (let i = 0; i {"<"} nums.length; i++) {"{"}
+            </div>
+            <div className="ml-8 text-yellow-400">
+              const complement = target - nums[i];
+            </div>
+            <div className="ml-8 text-gray-300">
+              if (map.has(complement)) {"{"}
+            </div>
+            <div className="ml-12 text-green-400">
+              return [map.get(complement), i];
+            </div>
+            <div className="ml-8 text-gray-300">{"}"}</div>
+            <div className="ml-8 text-gray-300">map.set(nums[i], i);</div>
+            <div className="ml-4 text-gray-300">{"}"}</div>
+            <div className="text-cyan-400">{"}"}</div>
           </div>
         </div>
+
         <div
-          className="hidden lg:block absolute bottom-20 right-10 opacity-20 animate-bounce"
-          style={{ animationDelay: "2s" }}
+          className="hidden lg:block absolute top-20 right-8 opacity-30 animate-float z-0"
+          style={{ animationDelay: "1s" }}
         >
-          <div className="bg-black/40 backdrop-blur-sm border border-cyan-500/30 rounded-lg p-4 text-cyan-400 font-mono text-sm">
-            {"return result;"}
+          <div className="bg-black/60 backdrop-blur-sm border border-cyan-500/40 rounded-lg p-6 text-blue-400 font-mono text-xs max-w-xs">
+            <div className="text-purple-400 mb-2">// Binary Search</div>
+            <div className="text-cyan-400">
+              function binarySearch(arr, target) {"{"}
+            </div>
+            <div className="ml-4 text-gray-300">
+              let left = 0, right = arr.length - 1;
+            </div>
+            <div className="ml-4 text-gray-300">
+              while (left {"<"}= right) {"{"}
+            </div>
+            <div className="ml-8 text-yellow-400">
+              const mid = Math.floor((left + right) / 2);
+            </div>
+            <div className="ml-8 text-gray-300">
+              if (arr[mid] === target) return mid;
+            </div>
+            <div className="ml-8 text-gray-300">
+              else if (arr[mid] {"<"} target) left = mid + 1;
+            </div>
+            <div className="ml-8 text-gray-300">else right = mid - 1;</div>
+            <div className="ml-4 text-gray-300">{"}"}</div>
+            <div className="ml-4 text-green-400">return -1;</div>
+            <div className="text-cyan-400">{"}"}</div>
           </div>
         </div>
       </section>

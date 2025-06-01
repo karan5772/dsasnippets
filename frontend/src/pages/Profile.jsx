@@ -1,13 +1,184 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Mail, User, Shield, Image } from "lucide-react";
+import { CircleChevronLeft, Mail, Shield } from "lucide-react";
+import { Bar, Doughnut, Pie } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+} from "chart.js";
 import { useAuthStore } from "../store/useAuthStore";
 import ProfileSubmission from "../components/ProfileSubmission";
 import ProblemSolvedByUser from "../components/ProblemSolvedByUser";
 import PlaylistProfile from "../components/PlaylistProfile";
+import { axiosInstance } from "../lib/axios";
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement
+);
 
 const Profile = () => {
   const { authUser } = useAuthStore();
+
+  const [problemsSolvedStats, setProblemsSolvedStats] = useState({
+    easy: 0,
+    medium: 0,
+    hard: 0,
+  });
+  const [submissionStats, setSubmissionStats] = useState({
+    accepted: 0,
+    wrong: 0,
+    tle: 0,
+  });
+
+  // Fetch data from the backend
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        // Fetch problems solved stats
+        const solvedProblemsResponse = await axiosInstance.get(
+          "/problems/get-Solved-Problems"
+        );
+        const problems = solvedProblemsResponse.data.problems;
+        console.log(problems);
+
+        // Classify problems by difficulty
+        const difficultyStats = { easy: 0, medium: 0, hard: 0 };
+        problems.forEach((problem) => {
+          if (problem.difficulty === "EASY") difficultyStats.easy++;
+          else if (problem.difficulty === "MEDIUM") difficultyStats.medium++;
+          else if (problem.difficulty === "HARD") difficultyStats.hard++;
+        });
+        setProblemsSolvedStats(difficultyStats);
+
+        // Fetch submission stats
+        const submissionResponse = await axiosInstance.get(
+          "/submission/get-all-submission"
+        );
+        const submissions = submissionResponse.data.submissions;
+
+        // Classify submissions by status
+        const statusStats = { accepted: 0, wrong: 0, tle: 0 };
+        submissions.forEach((submission) => {
+          if (submission.status === "ACCEPTED") statusStats.accepted++;
+          else if (submission.status === "REJECTED") statusStats.wrong++;
+        });
+        setSubmissionStats(statusStats);
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  if (!problemsSolvedStats || !submissionStats) {
+    return <div className="text-white text-center">Loading...</div>;
+  }
+
+  // Bar Chart Data for Problems Solved
+  const problemsSolvedData = {
+    labels: ["Easy", "Medium", "Hard"],
+    datasets: [
+      {
+        label: "Problems Solved",
+        data: [
+          problemsSolvedStats.easy,
+          problemsSolvedStats.medium,
+          problemsSolvedStats.hard,
+        ],
+        backgroundColor: [
+          "rgba(76, 175, 80, 0.8)",
+          "rgba(255, 152, 0, 0.8)",
+          "rgba(244, 67, 54, 0.8)",
+        ],
+        borderColor: ["#4caf50", "#ff9800", "#f44336"],
+        borderWidth: 2,
+        borderRadius: 10, // Rounded bars
+      },
+    ],
+  };
+
+  // Pie Chart Data for Submission Distribution
+  const submissionDistributionData = {
+    labels: ["Accepted", "Wrong Answer", "Time Limit Exceeded"],
+    datasets: [
+      {
+        label: "Submissions",
+        data: [
+          submissionStats.accepted,
+          submissionStats.wrong,
+          submissionStats.tle,
+        ],
+        backgroundColor: [
+          "rgba(76, 175, 80, 0.8)",
+          "rgba(244, 67, 54, 0.8)",
+          "rgba(255, 152, 0, 0.8)",
+        ],
+        hoverOffset: 10, // Highlight effect on hover
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+        labels: {
+          color: "#ffffff",
+          font: {
+            size: 14,
+          },
+        },
+      },
+      tooltip: {
+        backgroundColor: "#333",
+        titleColor: "#fff",
+        bodyColor: "#fff",
+        borderColor: "#777",
+        borderWidth: 1,
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: "#ffffff",
+        },
+        grid: {
+          color: "rgba(255, 255, 255, 0.1)",
+        },
+      },
+      y: {
+        ticks: {
+          color: "#ffffff",
+          stepSize: 1, // Adjust step size for better granularity
+        },
+        grid: {
+          color: "rgba(255, 255, 255, 0.1)",
+        },
+        beginAtZero: true, // Ensure bars start at zero
+        max:
+          Math.max(
+            problemsSolvedStats.easy,
+            problemsSolvedStats.medium,
+            problemsSolvedStats.hard
+          ) + 1, // Dynamically set max value for taller bars
+      },
+    },
+    animation: {
+      duration: 1500, // Smooth animation
+      easing: "easeInOutQuad",
+    },
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex flex-col items-center justify-center py-10 px-4 md:px-8 w-full">
@@ -18,7 +189,7 @@ const Profile = () => {
             to={"/home"}
             className="btn btn-circle btn-ghost hover:bg-gray-700"
           >
-            <ArrowLeft className="w-5 h-5 text-white" />
+            <CircleChevronLeft className="w-10 h-10 pt-1 text-white" />
           </Link>
           <h1 className="text-4xl font-extrabold text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text">
             Profile
@@ -71,17 +242,6 @@ const Profile = () => {
                 </div>
               </div>
 
-              {/* User ID */}
-              <div className="stat bg-black/50 backdrop-blur-lg border border-gray-700 rounded-xl p-6">
-                <div className="stat-figure text-cyan-400">
-                  <User className="w-8 h-8" />
-                </div>
-                <div className="stat-title text-gray-400">User ID</div>
-                <div className="stat-value text-white text-sm break-all">
-                  {authUser.id}
-                </div>
-              </div>
-
               {/* Role Status */}
               <div className="stat bg-black/50 backdrop-blur-lg border border-gray-700 rounded-xl p-6">
                 <div className="stat-figure text-green-400">
@@ -97,25 +257,36 @@ const Profile = () => {
                     : "Limited access"}
                 </div>
               </div>
-
-              {/* Profile Image Status */}
-              <div className="stat bg-black/50 backdrop-blur-lg border border-gray-700 rounded-xl p-6">
-                <div className="stat-figure text-yellow-400">
-                  <Image className="w-8 h-8" />
-                </div>
-                <div className="stat-title text-gray-400">Profile Image</div>
-                <div className="stat-value text-white text-lg">
-                  {authUser.image ? "Uploaded" : "Not Set"}
-                </div>
-                <div className="stat-desc text-gray-500">
-                  {authUser.image
-                    ? "Image available"
-                    : "Upload a profile picture"}
-                </div>
-              </div>
             </div>
 
-            {/* Action Buttons */}
+            <div className="divider my-8 border-gray-700"></div>
+
+            {/* Graphical Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Bar Chart for Problems Solved */}
+              <div className="bg-black/50 backdrop-blur-lg border border-gray-700 rounded-xl p-6 flex flex-col justify-end">
+                <h3 className="text-lg font-semibold text-white mb-4">
+                  Problems Solved
+                </h3>
+                <div className="mt-auto">
+                  <Bar
+                    data={problemsSolvedData}
+                    options={chartOptions}
+                    height={300}
+                  />
+                </div>
+              </div>
+              {/* Pie Chart for Submission Distribution */}
+              <div className="bg-black/50 backdrop-blur-lg border border-gray-700 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-white mb-4">
+                  Submission Distribution
+                </h3>
+                <Doughnut
+                  data={submissionDistributionData}
+                  options={chartOptions}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -125,6 +296,21 @@ const Profile = () => {
         <ProfileSubmission />
         <ProblemSolvedByUser />
         <PlaylistProfile />
+      </div>
+      <div className="container mx-auto px-4">
+        <hr className="border-0 border-gray-600 mb-8" />
+        <div className="border-t border-white/10 pt-8 mb-10">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-400 text-center md:text-left mb-4 md:mb-0">
+              © 2025 DSASNIPPETS.
+            </p>
+            <div className="flex items-center space-x-6 text-sm text-gray-400">
+              <span>Built to Revolutionize DSA & Problem Solving</span>
+              <span>•</span>
+              <span>Built with passion</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

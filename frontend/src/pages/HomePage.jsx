@@ -49,8 +49,8 @@ const HomePage = () => {
           to="/playlist/30fbe0b6-b42d-4619-a96b-3a516dcc9ade"
           className="flex items-center gap-3 cursor-pointer hover:text-white"
         >
-          <span className="btn btn-primary text-3xl  p-8 pl-13 pr-13 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-purple-900 via-pink-600 to-cyan-600 hover:from-red-700 hover:to-cyan-500">
-            Buy Playlist <br /> <span>(Demo Feture)</span>
+          <span className="btn btn-primary text-3xl  p-8 pl-13 pr-13 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-pink-500 to-orange-500 shadow-lg hover:from-pink-600 hover:to-orange-600 hover:scale-105">
+            Buy Playlist
           </span>
         </Link>
       </div>
@@ -66,6 +66,21 @@ const HomePage = () => {
             No problems found
           </p>
         )}
+      </div>
+      <div className="container mx-auto px-4">
+        <hr className="border-0 border-gray-600 mb-8" />
+        <div className="border-t border-white/10 pt-8 mb-10">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-400 text-center md:text-left mb-4 md:mb-0">
+              © 2025 DSASNIPPETS.
+            </p>
+            <div className="flex items-center space-x-6 text-sm text-gray-400">
+              <span>Built to Revolutionize DSA & Problem Solving</span>
+              <span>•</span>
+              <span>Built with passion</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

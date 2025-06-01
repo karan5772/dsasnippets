@@ -17,7 +17,11 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: [
+      "http://localhost:5173", // for local dev
+      "https://www.dsasnippets.xyz", // your frontend custom domain
+      "https://dsasnippets.xyz", // without www
+    ],
     credentials: true,
   })
 );

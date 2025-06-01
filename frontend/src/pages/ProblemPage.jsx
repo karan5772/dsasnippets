@@ -40,13 +40,12 @@ const ProblemPage = () => {
     isLoading: isSubmissionsLoading,
     getSubmissionForProblem,
     getSubmissionCountForProblem,
-    submissionCount,
   } = useSubmissionStore();
 
+  const [submissionCount, setSubmissionCount] = useState(0);
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
-  const [selectedLanguage, setSelectedLanguage] = useState(" ");
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("JAVA");
   const [testcases, setTestCases] = useState([]);
 
   const { executeCode, submission, isExecuting } = useExecutionStore();
@@ -68,7 +67,7 @@ const ProblemPage = () => {
   useEffect(() => {
     if (problem && problem.codeSnippets) {
       setCode(
-        problem.codeSnippets["javascript"] ||
+        problem.codeSnippets["JAVA"] ||
           "// Select Programming Langauge from\n// above to start Writing answer"
       );
     }
@@ -104,6 +103,7 @@ const ProblemPage = () => {
       const stdin = problem.testcases.map((tc) => tc.input);
       const expected_outputs = problem.testcases.map((tc) => tc.output);
       executeCode(code, language_id, stdin, expected_outputs, id);
+      setSubmissionCount((prevCount) => prevCount + 1);
     } catch (error) {
       console.log("Error executing code", error);
     }
@@ -344,6 +344,7 @@ const ProblemPage = () => {
                 </button>
               </div>
 
+              {/* Code Editor */}
               <div className="h-full w-full border-t border-gray-700">
                 <Editor
                   height="100%"
@@ -363,36 +364,11 @@ const ProblemPage = () => {
                 />
               </div>
 
+              {/* Test Cases Section */}
               <div className="p-4 border-t border-gray-700 bg-gray-800 rounded-b-lg">
-                <div className="flex justify-between items-center">
-                  <button></button>
-                  <button
-                    className={`btn btn-primary gap-2 ${
-                      isExecuting ? "loading" : "hover:shadow-lg"
-                    }`}
-                    onClick={handleRunCode}
-                    disabled={isExecuting}
-                  >
-                    {!isExecuting && <Play className="w-5 h-5" />}
-                    Run Code
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="card bg-base-100 shadow-xl rounded-lg mt-7">
-          <div className="card-body">
-            {submission ? (
-              <Submission submission={submission} />
-            ) : (
-              <>
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-2xl font-bold text-gray-100">
-                    Test Cases
-                  </h3>
-                </div>
+                <h3 className="text-2xl font-bold text-gray-100 mb-4">
+                  Test Cases
+                </h3>
                 <div className="overflow-x-auto rounded-lg">
                   <table className="table table-zebra w-full rounded-lg">
                     <thead className="bg-gray-700 rounded-lg">
@@ -415,8 +391,54 @@ const ProblemPage = () => {
                     </tbody>
                   </table>
                 </div>
-              </>
+              </div>
+
+              {/* Run Code Button */}
+              <div className="p-4 border-t border-gray-700 bg-gray-800 rounded-b-lg">
+                <div className="flex justify-between items-center">
+                  <button></button>
+                  <button
+                    className={`btn btn-primary gap-2 ${
+                      isExecuting ? "loading" : "hover:shadow-lg"
+                    }`}
+                    onClick={handleRunCode}
+                    disabled={isExecuting}
+                  >
+                    {!isExecuting && <Play className="w-5 h-5" />}
+                    Submit Code
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="card bg-base-100 shadow-xl rounded-lg mt-7 flex justify-center bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800">
+          <div className="card-body">
+            {submission ? (
+              <Submission submission={submission} />
+            ) : (
+              <div className="flex items-center justify-center w-full  text-white rounded-lg  p-6 h-15">
+                <p className="text-lg font-semibold items-center justify-center">
+                  ** Submit the code to see the results.
+                </p>
+              </div>
             )}
+          </div>
+        </div>
+      </div>
+      <div className="container mx-auto px-4">
+        <hr className="border-0 border-gray-600 mb-8" />
+        <div className="border-t border-white/10 pt-8 mb-10">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-400 text-center md:text-left mb-4 md:mb-0">
+              © 2025 DSASNIPPETS.
+            </p>
+            <div className="flex items-center space-x-6 text-sm text-gray-400">
+              <span>Built to Revolutionize DSA & Problem Solving</span>
+              <span>•</span>
+              <span>Built with passion</span>
+            </div>
           </div>
         </div>
       </div>

@@ -41,9 +41,9 @@ export const register = async (req, res) => {
     });
 
     res.cookie("jwt", token, {
-      httpOnly: true,
-      sameSite: true,
-      secure: process.env.NODE_ENV !== "development",
+      httpOnly: false,
+      sameSite: "None",
+      secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 Days
     });
 
@@ -102,9 +102,9 @@ export const login = async (req, res) => {
     });
 
     res.cookie("jwt", token, {
-      httpOnly: true,
-      sameSite: true,
-      secure: process.env.NODE_ENV !== "development",
+      httpOnly: false,
+      sameSite: "None",
+      secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 Days
     });
 
