@@ -81,11 +81,11 @@ const LandingPage = () => {
           {/* Main Heading */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-8 leading-tight">
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
-              Code
+              Code{" "}
             </span>
-            <br />
-            <span className="text-white">Create</span>
-            <br />
+
+            <span className="text-white">Create </span>
+
             <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
               Earn
             </span>
@@ -109,7 +109,7 @@ const LandingPage = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <a
               href="/home"
-              className="group relative inline-flex items-center justify-center px-10 py-5 text-xl font-bold text-white transition-all duration-300 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-full hover:from-cyan-700 hover:to-blue-700 hover:scale-105 transform"
+              className="group relative inline-flex items-center justify-center px-7 py-5 text-lg font-bold text-white transition-all duration-300 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-full hover:from-cyan-700 hover:to-blue-700 hover:scale-105 transform"
             >
               <Play className="h-6 w-6 mr-3" />
               Start Solving Problems
@@ -118,7 +118,7 @@ const LandingPage = () => {
             </a>
             <Link
               to="/add-problem"
-              className="group relative inline-flex items-center justify-center px-10 py-5 text-xl font-bold text-white transition-all duration-300 bg-transparent border-2 border-purple-500 rounded-full hover:bg-purple-500 hover:scale-105"
+              className="group relative inline-flex items-center justify-center px-8 py-5 text-xl font-bold text-white transition-all duration-300 bg-transparent border-2 border-purple-500 rounded-full hover:bg-purple-500 hover:scale-105"
             >
               <Brain className="h-6 w-6 mr-3" />
               Create Problems
@@ -127,7 +127,7 @@ const LandingPage = () => {
           </div>
 
           {/* Interactive Feature Showcase */}
-          <div className="mb-12 max-w-2xl mx-auto">
+          <div className="mb-12 max-w-xl mx-auto">
             <div className="bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl p-8">
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-white mb-2">
@@ -190,7 +190,9 @@ const LandingPage = () => {
         </div>
 
         {/* Floating Code Snippets */}
-        <div className="hidden lg:block absolute top-32 left-8 opacity-30 animate-float z-0">
+
+        {/* Two Sum Problem Block */}
+        <div className="hidden lg:block absolute bottom-105 left-0 opacity-30 animate-float z-0">
           <div className="bg-black/60 backdrop-blur-sm border border-purple-500/40 rounded-lg p-6 text-green-400 font-mono text-xs max-w-xs">
             <div className="text-purple-400 mb-2">// Two Sum Problem</div>
             <div className="text-cyan-400">
@@ -216,8 +218,9 @@ const LandingPage = () => {
           </div>
         </div>
 
+        {/* Binary Search Block */}
         <div
-          className="hidden lg:block absolute top-20 right-8 opacity-30 animate-float z-0"
+          className="hidden lg:block absolute bottom-95 right-0 opacity-30 animate-float z-0"
           style={{ animationDelay: "1s" }}
         >
           <div className="bg-black/60 backdrop-blur-sm border border-cyan-500/40 rounded-lg p-6 text-blue-400 font-mono text-xs max-w-xs">
@@ -243,6 +246,55 @@ const LandingPage = () => {
             <div className="ml-8 text-gray-300">else right = mid - 1;</div>
             <div className="ml-4 text-gray-300">{"}"}</div>
             <div className="ml-4 text-green-400">return -1;</div>
+            <div className="text-cyan-400">{"}"}</div>
+          </div>
+        </div>
+
+        <div
+          className="hidden lg:block absolute bottom-12 left-2 opacity-30 animate-float z-0"
+          style={{ animationDelay: "2s" }}
+        >
+          <div className="bg-black/60 backdrop-blur-sm border border-green-500/40 rounded-lg p-6 text-green-400 font-mono text-xs max-w-xs">
+            <div className="text-purple-400 mb-2">// Merge Sort</div>
+            <div className="text-cyan-400">function mergeSort(arr) {"{"}</div>
+            <div className="ml-4 text-gray-300">
+              if (arr.length {"<"}= 1) return arr;
+            </div>
+            <div className="ml-4 text-yellow-400">
+              const mid = Math.floor(arr.length / 2);
+            </div>
+            <div className="ml-4 text-gray-300">
+              const left = mergeSort(arr.slice(0, mid));
+            </div>
+            <div className="ml-4 text-gray-300">
+              const right = mergeSort(arr.slice(mid));
+            </div>
+            <div className="ml-4 text-green-400">
+              return merge(left, right);
+            </div>
+            <div className="text-cyan-400">{"}"}</div>
+          </div>
+        </div>
+
+        <div
+          className="hidden lg:block absolute bottom-20 right-2 opacity-30 animate-float z-0"
+          style={{ animationDelay: "3s" }}
+        >
+          <div className="bg-black/60 backdrop-blur-sm border border-orange-500/40 rounded-lg p-6 text-orange-400 font-mono text-xs max-w-xs">
+            <div className="text-purple-400 mb-2">// DFS Traversal</div>
+            <div className="text-cyan-400">
+              function dfs(node, visited = new Set()) {"{"}
+            </div>
+            <div className="ml-4 text-gray-300">
+              if (!node || visited.has(node)) return;
+            </div>
+            <div className="ml-4 text-yellow-400">visited.add(node);</div>
+            <div className="ml-4 text-green-400">console.log(node.value);</div>
+            <div className="ml-4 text-gray-300">
+              node.children.forEach(child {"=>"} {"{"}
+            </div>
+            <div className="ml-8 text-gray-300">dfs(child, visited);</div>
+            <div className="ml-4 text-gray-300">{"}"});</div>
             <div className="text-cyan-400">{"}"}</div>
           </div>
         </div>
@@ -669,20 +721,6 @@ const LandingPage = () => {
                   Stay Tuned!
                 </span>
                 <Sparkles className="h-5 w-5 text-yellow-400" />
-              </div>
-            </div>
-
-            {/* Bottom Footer */}
-            <div className="border-t border-white/10 pt-8">
-              <div className="flex flex-col md:flex-row justify-between items-center">
-                <p className="text-gray-400 text-center md:text-left mb-4 md:mb-0">
-                  © 2025 DSASNIPPETS.
-                </p>
-                <div className="flex items-center space-x-6 text-sm text-gray-400">
-                  <span>Built to Revolutionize DSA & Problem Solving</span>
-                  <span>•</span>
-                  <span>Built with passion</span>
-                </div>
               </div>
             </div>
           </div>

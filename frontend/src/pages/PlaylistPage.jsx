@@ -51,7 +51,7 @@ const PlaylistPage = () => {
     razorpay.open();
   };
 
-  if (isLoading || !playlist) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
         {/* Full-screen loading spinner */}
@@ -65,7 +65,7 @@ const PlaylistPage = () => {
 
   if (!playlist) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
+      <div className="flex items-center justify-center h-screen ">
         <div className="text-white text-lg">Playlist not found</div>
       </div>
     );
@@ -142,21 +142,6 @@ const PlaylistPage = () => {
             </p>
           </div>
         )}
-      </div>
-      <div className="container mx-auto px-4">
-        <hr className="border-0 border-gray-600 mb-8" />
-        <div className="border-t border-white/10 pt-8 mb-10">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-center md:text-left mb-4 md:mb-0">
-              © 2025 DSASNIPPETS.
-            </p>
-            <div className="flex items-center space-x-6 text-sm text-gray-400">
-              <span>Built to Revolutionize DSA & Problem Solving</span>
-              <span>•</span>
-              <span>Built with passion</span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

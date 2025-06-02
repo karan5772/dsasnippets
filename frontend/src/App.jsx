@@ -14,6 +14,7 @@ import LandingPage from "./pages/LandingPage";
 import ProblemPage from "./pages/ProblemPage";
 import Profile from "./pages/Profile";
 import PlaylistPage from "./pages/PlaylistPage.jsx";
+import AllPlaylistsPage from "./pages/AllPlayListsPage.jsx";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -46,6 +47,9 @@ const App = () => {
 
         <Route path="/playlist/:id" element={<Layout />}>
           <Route index element={<PlaylistPage />} />
+        </Route>
+        <Route path="/playlist/all-playsist" element={<Layout />}>
+          <Route index element={<AllPlaylistsPage />} />
         </Route>
 
         <Route path="/home" element={<Layout />}>

@@ -20,7 +20,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <nav className="sticky top-0 w-full z-50 h-20 mt-10 py-3.5 bg-black/30 backdrop-blur-md shadow-lg border border-gray-200/10 rounded-2xl min-w-[800px]">
+      <nav className="sticky top-0 w-full z-50 h-20 mt-5 py-3.5 bg-black/30 backdrop-blur-md shadow-lg border border-gray-200/10 rounded-2xl min-w-[800px]">
         <div>
           <div className="flex w-full h-full justify-between items-center mx-auto px-6  ">
             <Link to="/" className="flex items-center gap-3 cursor-pointer">
@@ -38,10 +38,10 @@ const Navbar = () => {
                   See All Problems
                 </Link>
                 <Link
-                  to="/playlist/30fbe0b6-b42d-4619-a96b-3a516dcc9ade"
+                  to="/playlist/all-playsist"
                   className="px-3 py-2 text-white font-medium text-base rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 shadow-lg hover:from-purple-600 hover:to-cyan-600 hover:scale-105 transition-all duration-300"
                 >
-                  Buy Playlist
+                  See All Playlists
                 </Link>
               </div>
             </div>

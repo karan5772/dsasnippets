@@ -27,6 +27,39 @@ export const createPlaylist = async (req, res) => {
   }
 };
 
+export const getAllLists = async (req, res) => {
+  try {
+    const playlist = await db.playlist.findMany({
+      include: {
+        problems: {
+          include: {
+            problem: true,
+          },
+        },
+      },
+    });
+
+    if (!playlist) {
+      return res.status(404).json({
+        success: false,
+        message: "No Problems Found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Playlist fetched successfully",
+      playlist,
+    });
+  } catch (error) {
+    console.error("Error Featching Playlist:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to Fatch Playlist",
+    });
+  }
+};
+
 export const getAllListDetails = async (req, res) => {
   const userId = req.user.id;
   try {
