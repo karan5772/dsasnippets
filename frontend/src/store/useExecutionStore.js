@@ -6,6 +6,8 @@ export const useExecutionStore = create((set) => ({
   isExecuting: false,
   submission: null,
 
+  resetSubmission: () => set({ submission: null }),
+
   executeCode: async (
     source_code,
     language_id,

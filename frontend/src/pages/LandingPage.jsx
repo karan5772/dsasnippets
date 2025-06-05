@@ -116,13 +116,15 @@ const LandingPage = () => {
               <ArrowRight className="h-6 w-6 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
               <div className="absolute inset-0 rounded-full bg-white/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </a>
+          </div>
+          <div className="flex justify-center mb-12">
             <Link
-              to="/add-problem"
-              className="group relative inline-flex items-center justify-center px-8 py-5 text-xl font-bold text-white transition-all duration-300 bg-transparent border-2 border-purple-500 rounded-full hover:bg-purple-500 hover:scale-105"
+              to="/pricing"
+              className="group inline-flex items-center justify-center px-6 py-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-full text-lg font-bold text-white hover:from-purple-700 hover:to-cyan-700 hover:scale-105 transition-all duration-300"
             >
-              <Brain className="h-6 w-6 mr-3" />
-              Create Problems
-              <div className="absolute inset-0 rounded-full bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <Brain className="h-10 w-6 mr-2" />
+              Want to start as a Creator ?
+              <ArrowRight className="h-6 w-6 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
           </div>
 
@@ -301,7 +303,7 @@ const LandingPage = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-32 relative">
+      <section id="features" className="py-25 relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20">
             <h2 className="text-5xl md:text-6xl font-bold mb-6">
@@ -410,8 +412,8 @@ const LandingPage = () => {
       </section>
 
       {/* Creator vs Solver Section */}
-      <section id="creators" className="py-32 relative">
-        <div className="container mx-auto px-4">
+      <section id="creators" className="py-15 relative">
+        <div className="container mx-auto px-34">
           <div className="text-center mb-20">
             <h2 className="text-5xl md:text-6xl font-bold mb-6">
               <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
@@ -426,7 +428,7 @@ const LandingPage = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* For Creators */}
-            <div className="relative group">
+            <div className="relative group w-120">
               <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
               <div className="relative bg-black/40 backdrop-blur-xl border border-white/20 rounded-3xl p-10">
                 <div className="text-center mb-8">
@@ -457,7 +459,7 @@ const LandingPage = () => {
                 </ul>
                 <div className="text-center">
                   <Link
-                    to="/add-problem"
+                    to="/pricing"
                     className="group inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-purple-600/30 to-pink-600/30 backdrop-blur-sm border border-purple-500/30 rounded-xl hover:from-purple-600/50 hover:to-pink-600/50 transition-all duration-300"
                   >
                     <Brain className="h-5 w-5 text-white mr-2" />
@@ -471,7 +473,7 @@ const LandingPage = () => {
             </div>
 
             {/* For Solvers */}
-            <div className="relative group">
+            <div className="relative group w-120">
               <div className="absolute -inset-1 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
               <div className="relative bg-black/40 backdrop-blur-xl border border-white/20 rounded-3xl p-10">
                 <div className="text-center mb-8">
@@ -519,7 +521,7 @@ const LandingPage = () => {
       </section>
 
       {/* Monetization Focus Section */}
-      <section id="monetization" className="py-32 relative">
+      <section id="monetization" className="py-25 relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20">
             <h2 className="text-5xl md:text-6xl font-bold mb-6">
@@ -585,7 +587,7 @@ const LandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 relative overflow-hidden">
+      <section className="py-20 relative overflow-hidden">
         <div className=" inset-0 bg-gradient-to-r from-purple-900/50 to-cyan-900/50"></div>
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-4xl mx-auto">
@@ -611,16 +613,6 @@ const LandingPage = () => {
                 <ArrowRight className="h-6 w-6 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
                 <div className="absolute inset-0 rounded-full bg-white/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </a>
-              <a
-                href="https://github.com/karan5772/leetLab"
-                className="group relative inline-flex items-center justify-center px-10 py-5 text-xl font-bold text-white transition-all duration-300 bg-transparent border-2 border-purple-500 rounded-full hover:bg-purple-500 hover:scale-105"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Github className="h-6 w-6 mr-3" />
-                Star on GitHub
-                <div className="absolute inset-0 rounded-full bg-purple-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </a>
             </div>
           </div>
         </div>
@@ -629,17 +621,17 @@ const LandingPage = () => {
       {/* Beautiful Footer */}
       <footer className="relative overflow-hidden">
         <div className=" inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-        <div className="relative z-10 py-20">
+        <div className="relative z-10 py-10">
           <div className="container mx-auto px-4">
             {/* Main Footer Content */}
-            <div className="text-center mb-16">
+            <div className="text-center mt-5">
               {/* Big DSASnippets Logo */}
               <div className="flex items-center justify-center space-x-4 mb-8 group">
                 <div className="flex flex-col">
                   <span className="text-6xl md:text-7xl font-black bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
                     DSASNIPPETS
                   </span>
-                  <span className="text-lg text-gray-400 font-medium mt-2">
+                  <span className="text-lg  font-medium mt-2">
                     The Future of Coding Practice
                   </span>
                 </div>
@@ -660,7 +652,7 @@ const LandingPage = () => {
                   <h4 className="text-lg font-semibold text-white mb-2">
                     AI-Powered
                   </h4>
-                  <p className="text-gray-400">
+                  <p className="text-gray-200">
                     Generate unlimited problems with AI
                   </p>
                 </div>
@@ -671,7 +663,7 @@ const LandingPage = () => {
                   <h4 className="text-lg font-semibold text-white mb-2">
                     Real-time Execution
                   </h4>
-                  <p className="text-gray-400">
+                  <p className="text-gray-200">
                     Execute code instantly in the browser
                   </p>
                 </div>
@@ -682,45 +674,10 @@ const LandingPage = () => {
                   <h4 className="text-lg font-semibold text-white mb-2">
                     Monetization
                   </h4>
-                  <p className="text-gray-400">
+                  <p className="text-gray-200">
                     Earn from your coding expertise
                   </p>
                 </div>
-              </div>
-
-              {/* Footer CTA */}
-              <div className="mb-12">
-                <a
-                  href="/home"
-                  className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-300 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-full hover:from-purple-700 hover:to-cyan-700 hover:scale-105 transform"
-                >
-                  <Code2 className="h-6 w-6 mr-3" />
-                  Explore DSASNIPPETS
-                  <ArrowRight className="h-6 w-6 ml-3 group-hover:translate-x-1 transition-transform duration-300" />
-                  <div className="absolute inset-0 rounded-full bg-white/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </a>
-              </div>
-
-              {/* Social Links */}
-              <div className="flex justify-center space-x-6 mb-12">
-                <a
-                  href="https://github.com/karan5772/leetLab"
-                  className="group relative inline-flex items-center justify-center w-14 h-14 bg-gradient-to-r from-purple-600/20 to-cyan-600/20 backdrop-blur-sm border border-purple-500/30 rounded-full hover:from-purple-600/40 hover:to-cyan-600/40 transition-all duration-300 transform hover:scale-110"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Github className="h-6 w-6 text-white group-hover:text-purple-300 transition-colors duration-300" />
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 to-cyan-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </a>
-              </div>
-
-              {/* Coming Soon Notice */}
-              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 backdrop-blur-sm border border-purple-500/20 rounded-full px-8 py-4 mb-8">
-                <Sparkles className="h-5 w-5 text-yellow-400" />
-                <span className="text-white font-semibold text-lg">
-                  Stay Tuned!
-                </span>
-                <Sparkles className="h-5 w-5 text-yellow-400" />
               </div>
             </div>
           </div>

@@ -78,6 +78,7 @@ export async function callGemini(text) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
+    console.log(response);
 
     if (!response.ok) {
       throw new Error(`Gemini API error: ${response.statusText}`);

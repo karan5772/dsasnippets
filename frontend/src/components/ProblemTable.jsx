@@ -37,7 +37,6 @@ const ProblemsTable = ({ problems }) => {
   // Define allowed difficulties
   const difficulties = ["EASY", "MEDIUM", "HARD"];
 
-  // Filter problems based on search, difficulty, and tags
   // Filter problems based on search, difficulty, and tags, and sort by creation time
   const filteredProblems = useMemo(() => {
     return (problems || [])
@@ -138,6 +137,7 @@ const ProblemsTable = ({ problems }) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // Company name logic: assign once per problem per page load
   const companyNames = [
     "Learnyst",
     "Teachyst",
@@ -149,13 +149,26 @@ const ProblemsTable = ({ problems }) => {
     "BharatUI",
   ];
 
-  const getRandomCompanyName = () => {
-    const randomIndex = Math.floor(Math.random() * companyNames.length);
-    return companyNames[randomIndex];
-  };
+  const [companyMap, setCompanyMap] = useState({});
+
+  useEffect(() => {
+    if (!visibleProblems || visibleProblems.length === 0) return;
+    setCompanyMap((prevMap) => {
+      const newMap = { ...prevMap };
+      visibleProblems.forEach((problem) => {
+        if (!newMap[problem.id]) {
+          newMap[problem.id] =
+            problem.company && problem.company.length > 0
+              ? problem.company
+              : [companyNames[Math.floor(Math.random() * companyNames.length)]];
+        }
+      });
+      return newMap;
+    });
+  }, [visibleProblems, companyNames]);
 
   return (
-    <div className="w-full max-w-7xl mx-auto mt-10">
+    <div className="w-full max-w-6xl mx-auto mt-10">
       {/* Header with Create Playlist Button */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Problems</h2>
@@ -248,7 +261,7 @@ const ProblemsTable = ({ problems }) => {
                             key={idx}
                             className={`badge badge-outline text-xs font-bold ${
                               tag.toLowerCase() === "demo"
-                                ? "badge-success" // Green color for "Demo" tags
+                                ? "badge-success"
                                 : "badge-warning"
                             }`}
                           >
@@ -259,16 +272,14 @@ const ProblemsTable = ({ problems }) => {
                     </td>
                     <td>
                       <div className="flex flex-wrap gap-1">
-                        {(problem.company || [getRandomCompanyName()]).map(
-                          (tag, idx) => (
-                            <span
-                              key={idx}
-                              className="badge badge-outline badge-info text-xs font-bold"
-                            >
-                              {tag}
-                            </span>
-                          )
-                        )}
+                        {(companyMap[problem.id] || []).map((tag, idx) => (
+                          <span
+                            key={idx}
+                            className="badge badge-outline badge-info text-xs font-bold"
+                          >
+                            {tag}
+                          </span>
+                        ))}
                       </div>
                     </td>
                     <td>
@@ -319,6 +330,14 @@ const ProblemsTable = ({ problems }) => {
       {hasMore && <div ref={observerRef} className="h-10"></div>}
 
       {/* Scroll-to-Top Button */}
+      {showScrollToTop && (
+        <button
+          className="fixed bottom-8 right-8 btn btn-circle btn-primary shadow-lg z-50"
+          onClick={scrollToTop}
+        >
+          <ArrowUp className="w-6 h-6" />
+        </button>
+      )}
 
       <CreatePlaylistModal
         isOpen={isCreateModalOpen}

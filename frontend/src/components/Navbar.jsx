@@ -26,22 +26,36 @@ const Navbar = () => {
             <Link to="/" className="flex items-center gap-3 cursor-pointer">
               <img
                 src={MyImage}
-                className="h-12 w-20 bg-primary/20 text-primary rounded-2xl border-none px-2 py-2 "
+                className="h-12 w-20 text-primary rounded-2xl border-none px-2 "
               />
             </Link>
             <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <div className="flex items-center gap-6">
                 <Link
                   to="/home"
-                  className="px-3 py-2 text-white font-medium text-base rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 shadow-lg hover:from-purple-600 hover:to-cyan-600 hover:scale-105 transition-all duration-300"
+                  className="relative inline-block w-40 text-center rounded-full p-[2px] bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 transition-all duration-300 hover:scale-105"
                 >
-                  See All Problems
+                  <span className="block px-3 py-2 text-white font-medium text-base rounded-full bg-gray-900">
+                    See All Problems
+                  </span>
                 </Link>
+
+                <Link
+                  to="/pricing"
+                  className="relative inline-block w-30 text-center rounded-full p-[2px] bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 transition-all duration-300 hover:scale-105"
+                >
+                  <span className="block px-3 py-2 text-white font-medium text-base rounded-full bg-gray-900">
+                    Pricing
+                  </span>
+                </Link>
+
                 <Link
                   to="/playlist/all-playsist"
-                  className="px-3 py-2 text-white font-medium text-base rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 shadow-lg hover:from-purple-600 hover:to-cyan-600 hover:scale-105 transition-all duration-300"
+                  className="relative inline-block w-40 text-center rounded-full p-[2px] bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 transition-all duration-300 hover:scale-105"
                 >
-                  See All Playlists
+                  <span className="block px-3 py-2 text-white font-medium text-base rounded-full bg-gray-900">
+                    See All Playlists
+                  </span>
                 </Link>
               </div>
             </div>

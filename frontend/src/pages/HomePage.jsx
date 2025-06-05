@@ -3,6 +3,7 @@ import { useProblemStore } from "../store/useProblemStore";
 import { Loader } from "lucide-react";
 import ProblemTable from "../components/ProblemTable";
 import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const HomePage = () => {
   const { getAllProblems, problems, isProblemsLoading } = useProblemStore();
@@ -31,26 +32,29 @@ const HomePage = () => {
       </h1>
 
       {/* Subheading */}
-      <p className="mt-6 text-center text-lg font-medium text-gray-300 z-10 max-w-3xl">
-        The next-generation coding platform where{" "}
-        <span className="text-blue-500 font-semibold">
-          creators build problems
-        </span>{" "}
-        and{" "}
-        <span className="text-cyan-400 font-semibold">coders solve them</span>.
+      <p className="mt-6 text-center text-lg font-medium text-gray-300 z-10 max-w-5xl">
+        Experience the future of coding with{" "}
+        <span className="text-primary font-semibold">
+          instant code execution
+        </span>
+        ,{" "}
+        <span className="text-cyan-400 font-semibold">
+          AI-powered problem creation
+        </span>
+        , and{" "}
+        <span className="text-pink-400 font-semibold">premium playlists</span>.
         <br />
-        Create questions manually or with AI, sell premium playlists, and
-        execute code in real-time.
+        Sharpen your skills, ace interviews, and get job-ready by solving real
+        coding challenges.
       </p>
-
       {/* Buy Playlist Button */}
       <div className="mt-8">
         <Link
-          to="/playlist/all-playsist"
+          to="/pricing"
           className="flex items-center gap-3 cursor-pointer hover:text-white"
         >
           <span className="btn btn-primary text-3xl  p-8 pl-13 pr-13 rounded-full hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-pink-500 to-orange-500 shadow-lg hover:from-pink-600 hover:to-orange-600 hover:scale-105">
-            See All Playlists
+            Become Snippet Learner
           </span>
         </Link>
       </div>

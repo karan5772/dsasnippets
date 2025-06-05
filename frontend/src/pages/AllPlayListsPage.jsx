@@ -38,51 +38,60 @@ const AllPlaylistsPage = () => {
 
       {/* Main blurred container */}
       <div className="relative z-10 w-full max-w-7xl rounded-3xl bg-black/60 backdrop-blur-md shadow-2xl p-8">
-        <h1 className="text-4xl font-extrabold mb-10 text-white text-center">
-          All Playlists
+        <h1 className="text-4xl text-center mb-7 font-extrabold text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text">
+          All Available Playlists
         </h1>
+        <p className="text-lg text-gray-300 text-center mb-8 font-medium">
+          Carefully crafted playlists to boost your problem-solving skills.
+          <br />
+          Pick a playlist and start your journey to mastery!
+        </p>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {playlists.map((playlist) => (
-            <div
-              key={playlist.id}
-              className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6 rounded-3xl shadow-lg flex flex-col"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="btn-circle">
-                  <div className="bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-2xl flex items-center justify-center font-bold ring ring-primary ring-offset-base-100 ring-offset-2 w-16 h-16 rounded-full shadow-lg">
-                    {playlist.user?.name
-                      ? playlist.user.name
-                          .split(" ")
-                          .map((word) => word.charAt(0))
-                          .join("")
-                          .toUpperCase()
-                      : "U"}
+          {playlists
+            .filter((playlist) => playlist.user?.role === "ADMIN")
+            .map((playlist) => (
+              <div
+                key={playlist.id}
+                className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6 rounded-3xl shadow-lg flex flex-col"
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="btn-circle">
+                    <div className="bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-2xl flex items-center justify-center font-bold ring ring-primary ring-offset-base-100 ring-offset-2 w-16 h-16 rounded-full shadow-lg">
+                      {playlist.user?.name
+                        ? playlist.user.name
+                            .split(" ")
+                            .map((word) => word.charAt(0))
+                            .join("")
+                            .toUpperCase()
+                        : "U"}
+                    </div>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold">{playlist.name}</h2>
+                    <p className="text-gray-400 text-sm">
+                      Created by:{" "}
+                      <span className="text-white font-semibold">
+                        {playlist.user?.name || "Unknown"}
+                      </span>
+                    </p>
+                    <p className="text-gray-500 text-xs">
+                      Created:{" "}
+                      {new Date(playlist.createdAt).toLocaleDateString()} |
+                      Updated:{" "}
+                      {new Date(playlist.updatedAt).toLocaleDateString()}
+                    </p>
                   </div>
                 </div>
-                <div>
-                  <h2 className="text-2xl font-bold">{playlist.name}</h2>
-                  <p className="text-gray-400 text-sm">
-                    Created by:{" "}
-                    <span className="text-white font-semibold">
-                      {playlist.user?.name || "Unknown"}
-                    </span>
-                  </p>
-                  <p className="text-gray-500 text-xs">
-                    Created: {new Date(playlist.createdAt).toLocaleDateString()}{" "}
-                    | Updated:{" "}
-                    {new Date(playlist.updatedAt).toLocaleDateString()}
-                  </p>
-                </div>
+                <p className="text-gray-300 mb-4">{playlist.description}</p>
+                <Link
+                  to={`/playlist/${playlist.id}`}
+                  className="mt-auto btn btn-primary w-full text-center"
+                >
+                  View Playlist
+                </Link>
               </div>
-              <p className="text-gray-300 mb-4">{playlist.description}</p>
-              <Link
-                to={`/playlist/${playlist.id}`}
-                className="mt-auto btn btn-primary w-full text-center"
-              >
-                View Playlist
-              </Link>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </div>
@@ -90,3 +99,5 @@ const AllPlaylistsPage = () => {
 };
 
 export default AllPlaylistsPage;
+
+// Leaderboard

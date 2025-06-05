@@ -40,15 +40,20 @@ const ProblemPage = () => {
     isLoading: isSubmissionsLoading,
     getSubmissionForProblem,
     getSubmissionCountForProblem,
+    submissionCount,
   } = useSubmissionStore();
 
-  const [submissionCount, setSubmissionCount] = useState(0);
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
   const [selectedLanguage, setSelectedLanguage] = useState("JAVA");
   const [testcases, setTestCases] = useState([]);
 
-  const { executeCode, submission, isExecuting } = useExecutionStore();
+  const { executeCode, submission, isExecuting, resetSubmission } =
+    useExecutionStore();
+
+  useEffect(() => {
+    resetSubmission();
+  }, [id, resetSubmission]);
 
   useEffect(() => {
     getProblemById(id);
@@ -96,14 +101,14 @@ const ProblemPage = () => {
     setCode(problem.codeSnippets?.[lang] || "");
   };
 
-  const handleRunCode = (e) => {
+  const handleRunCode = async (e) => {
     e.preventDefault();
     try {
       const language_id = getLanguageId(selectedLanguage);
       const stdin = problem.testcases.map((tc) => tc.input);
       const expected_outputs = problem.testcases.map((tc) => tc.output);
-      executeCode(code, language_id, stdin, expected_outputs, id);
-      setSubmissionCount((prevCount) => prevCount + 1);
+      await executeCode(code, language_id, stdin, expected_outputs, id);
+      await getSubmissionCountForProblem(id);
     } catch (error) {
       console.log("Error executing code", error);
     }

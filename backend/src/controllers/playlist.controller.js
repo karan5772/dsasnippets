@@ -31,11 +31,7 @@ export const getAllLists = async (req, res) => {
   try {
     const playlist = await db.playlist.findMany({
       include: {
-        problems: {
-          include: {
-            problem: true,
-          },
-        },
+        user: true,
       },
     });
 
