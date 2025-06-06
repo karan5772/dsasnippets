@@ -42,12 +42,16 @@ const SignUpPage = () => {
           {/* Logo */}
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+              <a
+                href="/"
+                className="relative w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors"
+              >
                 <img
                   src={MyImage}
-                  className="bg-primary/20 text-primary border-none px-2 py-2 rounded-xl"
+                  className="w-10 h-10 border-none px-2 py-2 rounded-xl"
+                  alt="Logo"
                 />
-              </div>
+              </a>
               <h1 className="text-2xl font-bold mt-2">Welcome </h1>
               <p className=" text-gray-200">Sign Up to your account</p>
             </div>
@@ -69,7 +73,7 @@ const SignUpPage = () => {
                 <input
                   type="text"
                   {...register("name")}
-                  className={`input input-bordered w-full pl-10 ${
+                  className={`p-2 bg-gray-600 rounded-sm border-2 border-gray-400 w-full pl-10 ${
                     errors.name ? "input-error" : ""
                   }`}
                   placeholder="John Doe"
@@ -96,10 +100,10 @@ const SignUpPage = () => {
                 <input
                   type="email"
                   {...register("email")}
-                  className={`input input-bordered w-full pl-10  ${
+                  className={`p-2 bg-gray-600 rounded-sm border-2 border-gray-400 w-full pl-10  ${
                     errors.email ? "input-error" : ""
                   } `}
-                  placeholder="you@example.com"
+                  placeholder="abc@xyz.com"
                 />
               </div>
               {errors.email && (
@@ -123,7 +127,7 @@ const SignUpPage = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
-                  className={`input input-bordered w-full pl-10 ${
+                  className={`p-2 bg-gray-600 rounded-sm border-2 border-gray-400 w-full pl-10 ${
                     errors.password ? "input-error" : ""
                   }`}
                   placeholder="••••••••"

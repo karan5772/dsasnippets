@@ -413,7 +413,7 @@ const LandingPage = () => {
 
       {/* Creator vs Solver Section */}
       <section id="creators" className="py-15 relative">
-        <div className="container mx-auto px-34">
+        <div className="container mx-auto px-4">
           <div className="text-center mb-20">
             <h2 className="text-5xl md:text-6xl font-bold mb-6">
               <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
@@ -426,7 +426,7 @@ const LandingPage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="flex justify-center gap-12">
             {/* For Creators */}
             <div className="relative group w-120">
               <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>

@@ -53,7 +53,7 @@ const HomePage = () => {
           to="/pricing"
           className="flex items-center gap-3 cursor-pointer hover:text-white"
         >
-          <span className="btn btn-primary text-3xl  p-8 pl-13 pr-13 rounded-full hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-pink-500 to-orange-500 shadow-lg hover:from-pink-600 hover:to-orange-600 hover:scale-105">
+          <span className="btn btn-primary text-3xl  p-8 pl-13 pr-13 rounded-full hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-gray-500 to-cyan-500 shadow-lg hover:from-gray-500 to-white-500 hover:scale-105">
             Become Snippet Learner
           </span>
         </Link>

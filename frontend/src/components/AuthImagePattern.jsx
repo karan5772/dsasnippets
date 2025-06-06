@@ -115,12 +115,16 @@ function reverseList(head) {
 
         {/* Logo */}
         <div className="flex items-center justify-center mb-6">
-          <div className="w-12 h-12 rounded-xl bg-primary/10  flex items-center justify-center">
+          <a
+            href="/"
+            className="relative w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors"
+          >
             <img
               src={MyImage}
-              className="bg-primary/20 text-primary border-none px-2 py-2 rounded-xl"
+              className="w-10 h-10 border-none px-2 py-2 rounded-xl"
+              alt="Logo"
             />
-          </div>
+          </a>
         </div>
 
         {/* Text content */}

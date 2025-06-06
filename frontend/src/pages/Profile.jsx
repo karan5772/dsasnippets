@@ -16,6 +16,7 @@ import ProfileSubmission from "../components/ProfileSubmission";
 import ProblemSolvedByUser from "../components/ProblemSolvedByUser";
 import PlaylistProfile from "../components/PlaylistProfile";
 import { axiosInstance } from "../lib/axios";
+import Navbar from "../components/Navbar";
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -181,17 +182,14 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex flex-col items-center justify-center py-10 px-4 md:px-8 w-full">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex flex-col items-center justify-center py-4 px-4 md:px-8 w-full">
+      <div className="w-6xl mb-10">
+        <Navbar />
+      </div>
       {/* Header with back button */}
       <div className="flex flex-row justify-between items-center w-full max-w-6xl mb-8">
-        <div className="flex items-center gap-3">
-          <Link
-            to={"/home"}
-            className="btn btn-circle btn-ghost hover:bg-gray-700"
-          >
-            <CircleChevronLeft className="w-10 h-10 pt-1 text-white" />
-          </Link>
-          <h1 className="text-4xl font-extrabold text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text">
+        <div className="flex justify-center gap-3 items-center">
+          <h1 className="text-5xl text-center pl-5 font-extrabold text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text">
             Profile
           </h1>
         </div>
