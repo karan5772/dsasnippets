@@ -182,12 +182,12 @@ const ProblemsTable = ({ problems }) => {
         <input
           type="text"
           placeholder="Search by title"
-          className="input input-bordered w-full md:w-1/3 bg-base-200"
+          className="input p-2 bg-gray-900 rounded-sm border-1 border-gray-400 w-full md:w-1/3"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
         <select
-          className="select select-bordered bg-base-200"
+          className="select p-2 bg-gray-900 rounded-sm border-1 border-gray-400"
           value={difficulty}
           onChange={(e) => setDifficulty(e.target.value)}
         >
@@ -199,7 +199,7 @@ const ProblemsTable = ({ problems }) => {
           ))}
         </select>
         <select
-          className="select select-bordered bg-base-200"
+          className="select p-2 bg-gray-900 rounded-sm border-1 border-gray-400"
           value={selectedTag}
           onChange={(e) => setSelectedTag(e.target.value)}
         >
