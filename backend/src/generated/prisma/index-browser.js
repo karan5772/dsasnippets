@@ -230,7 +230,8 @@ exports.Prisma.JsonNullValueFilter = {
 };
 exports.UserRole = exports.$Enums.UserRole = {
   USER: 'USER',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
+  CREATOR: 'CREATOR'
 };
 
 exports.Difficulty = exports.$Enums.Difficulty = {

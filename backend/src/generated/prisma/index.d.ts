@@ -55,7 +55,8 @@ export type ProblemsInPlaylist = $Result.DefaultSelection<Prisma.$ProblemsInPlay
 export namespace $Enums {
   export const UserRole: {
   USER: 'USER',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
+  CREATOR: 'CREATOR'
 };
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]

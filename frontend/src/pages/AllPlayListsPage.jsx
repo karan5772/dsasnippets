@@ -49,7 +49,7 @@ const AllPlaylistsPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {playlists
-            .filter((playlist) => playlist.user?.role === "ADMIN")
+            .filter((playlist) => playlist.user?.role === "CREATOR")
             .map((playlist) => (
               <div
                 key={playlist.id}
