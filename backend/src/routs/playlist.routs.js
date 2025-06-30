@@ -15,7 +15,7 @@ const playlistRoutes = express.Router();
 playlistRoutes.post("/create-playlist", authMiddleware, createPlaylist);
 
 playlistRoutes.get("/", authMiddleware, getAllListDetails);
-playlistRoutes.get("/all-playsist", authMiddleware, getAllLists);
+playlistRoutes.get("/all-playsist", getAllLists);
 
 playlistRoutes.get("/:playlistId", authMiddleware, getPlayListDetails);
 playlistRoutes.get(

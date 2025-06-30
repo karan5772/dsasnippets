@@ -204,13 +204,23 @@ const Profile = () => {
               {/* Avatar */}
               <div className="relative">
                 <div className="bg-gradient-to-r from-purple-500 to-cyan-500 text-white rounded-full w-28 h-28 flex items-center justify-center text-4xl font-bold shadow-lg">
-                  {authUser.name
-                    ? authUser.name
-                        .split(" ")
-                        .map((word) => word.charAt(0))
-                        .join("")
-                        .toUpperCase()
-                    : "U"}
+                  {authUser.image ? (
+                    <img
+                      src={authUser.image}
+                      alt={authUser.name}
+                      className="w-28 h-28 rounded-full object-cover"
+                    />
+                  ) : (
+                    <span>
+                      {authUser.name
+                        ? authUser.name
+                            .split(" ")
+                            .map((word) => word.charAt(0))
+                            .join("")
+                            .toUpperCase()
+                        : "U"}
+                    </span>
+                  )}
                 </div>
               </div>
 
