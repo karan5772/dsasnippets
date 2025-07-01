@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import rateLimit from "express-rate-limit";
 
 import authRouts from "./routs/auth.routs.js";
 import problemRouts from "./routs/problem.routs.js";
@@ -11,6 +12,14 @@ import playlistRoute from "./routs/playlist.routs.js";
 
 dotenv.config();
 const app = express();
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again later.",
+});
+
+app.use(limiter);
 
 app.use(express.json());
 app.use(cookieParser());
