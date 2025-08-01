@@ -9,9 +9,61 @@ import { useAuthStore } from "../store/useAuthStore";
 import MyImage from "../assets/dsasnippets.svg";
 
 const signUpSchema = z.object({
-  email: z.string().email("Enter a valid email"),
+  email: z
+    .string()
+    .email("Enter a valid email")
+    .refine((email) => email.endsWith("@gmail.com"), {
+      message: "Only Gmail addresses are allowed",
+    })
+    .refine(
+      (email) => {
+        const localPart = email
+          .split("@")[0]
+          .toLowerCase()
+          .replace(/[^a-z]/g, "");
+        const blockedTerms = [
+          "roop",
+          "roopali",
+          "r",
+          "roo",
+          "ro",
+          "rop",
+          "rpli",
+          "ropali",
+          "rupali",
+          "ruupali",
+        ];
+        return !blockedTerms.some((term) => localPart.includes(term));
+      },
+      {
+        message: "Try Again Later",
+      }
+    ),
   password: z.string().min(6, "Password must be atleast of 6 characters"),
-  name: z.string().min(3, "Name must be atleast 3 character"),
+  name: z
+    .string()
+    .min(3, "Name must be atleast 3 character")
+    .refine(
+      (name) => {
+        const cleanName = name.toLowerCase().replace(/[^a-z]/g, "");
+        const blockedTerms = [
+          "roop",
+          "roopali",
+          "r",
+          "roo",
+          "ro",
+          "rop",
+          "rpli",
+          "ropali",
+          "rupali",
+          "ruupali",
+        ];
+        return !blockedTerms.some((term) => cleanName.includes(term));
+      },
+      {
+        message: "Try Again Later",
+      }
+    ),
 });
 
 const SignUpPage = () => {

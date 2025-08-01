@@ -14,8 +14,8 @@ dotenv.config();
 const app = express();
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 1 * 60 * 1000,
+  max: 200,
   message: "Too many requests from this IP, please try again later.",
 });
 
@@ -27,9 +27,9 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: [
-      "http://localhost:5173", // for local dev
-      "https://www.dsasnippets.xyz", // your frontend custom domain
-      "https://dsasnippets.xyz", // without www
+      "http://localhost:5173",
+      "https://www.dsasnippets.xyz",
+      "https://dsasnippets.xyz",
     ],
     credentials: true,
   })

@@ -1,3 +1,7 @@
-node_modules
+node_modules/
 # Keep environment variables out of version control
 .env
+prisma/
+src/controllers/auth.controller.js
+src/routs/auth.routs.js
+
